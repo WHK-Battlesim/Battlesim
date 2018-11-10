@@ -1,32 +1,25 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw8400\paperh11900\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+Plan
+der Bataille bei Torgau den 3. November 1760 zwischen der Kaiserlich-Königlichen Armee unter Befehl des Generalfeldmarschall Grafen von Daun und der Königlichen Preußischen Armee unter Anführung Sr. Majestät.
 
-\f0\fs24 \cf0 Plan\
-der Bataille bei Torgau den 3. November 1760 zwischen der Kaiserlich-K\'f6niglichen Armee unter Befehl des Generalfeldmarschall Grafen von Daun und der K\'f6niglichen Preu\'dfischen Armee unter Anf\'fchrung Sr. Majest\'e4t.\
-\
-Erkl\'e4rung\
-A Position der K\'f6niglichen Preu\'dfischen Armee den 2. November \
-B Marsch des Preu\'dfischen linken Fl\'fcgels unter Sr. Maj: in 3 Kollorien(?) als BCD\
-E Das Kaiserliche Dragoner Regiment St. Ignon, welches mehrheitlich gefangen wurde. \
-F Der linke Preu\'dfische Fl\'fcgel so wie er durch die Moraste bei Neiden vorr\'fcckt und in 3 Linien aufmarschierte. \
-G Die Kavallerie welche sich links der Infanterie gestellt so dass ihr linker Fl\'fcgel an die Elbe stie\'df.\
-H Kaiserliche Armee welche die Front ver\'e4nderte\
-I Kaiserliche Kavallerie\
-K Marsch des Preu\'dfischen rechten Fl\'fcgels unter dem General von Ziethen\
-L Stellung desselben\
-M Die auf diese Seite gewendete Front der zweiten Linie der Kaiserlichen Armee \
-N Kaiserliches Corps des Generalfeldzeugmeister Grafen von Larcy welches aber bei Ann\'e4herung der Preu\'dfen zur\'fcck marschierte gegen die Leipziger Landstra\'dfe.\
-PQ Attacke des Preu\'dfischen linken Fl\'fcgels welcher zu verschiedene mahle repouriert wurde und vieles von dem Kanonenfeuer ausstehen musste.\
-R Attacke des Preu\'dfischen rechten Fl\'fcgels im R\'fccken\
-S Die S\'fcptitzer Anh\'f6he welche welche endlich von denen Preu\'dfen behauptet wurden.\
-T Die in der Nacht genommene Position der Preu\'dfischen Armee\
-U Die gegenseitige Stellung und darauf erfolgte \
-W R\'fcckzug als durch Torgau und auf 2 dazu geschlagenen Schiffbr\'fccken, das General Lacey wrps(?) nahm seinen Stuchmarsch(?) auf Belgern.\
-\
-Unten: Ma\'dfstab einer halben Meile\
-\
-Ganz unten: Georg von Haynau. Gezeichnet im Dezember 1796}
+Erklärung
+A Position der Königlichen Preußischen Armee den 2. November 
+B Marsch des Preußischen linken Flügels unter Sr. Maj: in 3 Kollorien(?) als BCD
+E Das Kaiserliche Dragoner Regiment St. Ignon, welches mehrheitlich gefangen wurde. 
+F Der linke Preußische Flügel so wie er durch die Moraste bei Neiden vorrückt und in 3 Linien aufmarschierte. 
+G Die Kavallerie welche sich links der Infanterie gestellt so dass ihr linker Flügel an die Elbe stieß.
+H Kaiserliche Armee welche die Front veränderte
+I Kaiserliche Kavallerie
+K Marsch des Preußischen rechten Flügels unter dem General von Ziethen
+L Stellung desselben
+M Die auf diese Seite gewendete Front der zweiten Linie der Kaiserlichen Armee 
+N Kaiserliches Corps des Generalfeldzeugmeister Grafen von Larcy welches aber bei Annäherung der Preußen zurück marschierte gegen die Leipziger Landstraße.
+PQ Attacke des Preußischen linken Flügels welcher zu verschiedene mahle repouriert wurde und vieles von dem Kanonenfeuer ausstehen musste.
+R Attacke des Preußischen rechten Flügels im Rücken
+S Die Süptitzer Anhöhe welche welche endlich von denen Preußen behauptet wurden.
+T Die in der Nacht genommene Position der Preußischen Armee
+U Die gegenseitige Stellung und darauf erfolgte 
+W Rückzug als durch Torgau und auf 2 dazu geschlagenen Schiffbrücken, das General Lacey wrps(?) nahm seinen Stuchmarsch(?) auf Belgern.
+
+Unten: Maßstab einer halben Meile
+
+Ganz unten: Georg von Haynau. Gezeichnet im Dezember 1796
