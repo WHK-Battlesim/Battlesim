@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TriangleNet;
+using TriangleNet.Geometry;
+using TriangleNet.Meshing;
 
 namespace Assets.Scripts
 {
@@ -11,8 +14,8 @@ namespace Assets.Scripts
         public Material Material;
 
         public Vector3 Offset = Vector3.zero;
-        public Vector3 Scale = new Vector3(10, 10, 10);
-        public int Resolution = 100;
+        public Vector3 Scale = new Vector3(10, 1, 10);
+        public int NumberOfVertices = 10000;
 
         private void Start ()
         {
@@ -29,60 +32,22 @@ namespace Assets.Scripts
 
             var mesh = meshFilter.mesh;
             mesh.Clear();
+            
+            var polygon = new Polygon();
+            var random = new System.Random();
+            for (var i = 0; i < NumberOfVertices; i++)
+            {
+                polygon.Add(new Vertex(random.NextDouble(), random.NextDouble()));
+            }
 
-            // TODO: generate some random Delauney triangles and build mesh based on that
+            var options = new ConstraintOptions {ConformingDelaunay = true};
+            var triangulatedMesh = polygon.Triangulate(options);
 
-            mesh.SetVertices(GetVertices(heightMap).ToList());
-            mesh.SetTriangles(GetTriangles(), 0);
+            mesh.SetVertices(triangulatedMesh.Vertices.Select(v => Vector3.Scale(new Vector3((float) v.X, heightMap.GetPixelBilinear((float) v.X, (float) v.Y).r, (float) v.Y), Scale) + Offset).ToList());
+            mesh.SetTriangles(triangulatedMesh.Triangles.SelectMany(t => t.vertices.Reverse(), (t, v) => v.ID).ToArray(), 0);
             mesh.RecalculateNormals();
 
             meshRenderer.material = Material;
-        }
-
-        private IEnumerable<Vector3> GetVertices(Texture2D heightMap)
-        {
-            var vertices = new Vector3[Resolution * Resolution];
-            var floatResolution = (float) Resolution;
-
-            for (var z = 0; z < Resolution; z++)
-            {
-                for (var x = 0; x < Resolution; x++)
-                {
-                    var y = heightMap.GetPixelBilinear(x / floatResolution, z / floatResolution).r;
-
-                    vertices[x + z * Resolution] = Offset + Vector3.Scale(new Vector3(x / floatResolution, y, z / floatResolution), Scale);
-                }
-            }
-
-            return vertices;
-        }
-
-        private int[] GetTriangles()
-        {
-            var quadResolution = Resolution - 1;
-            var triangles = new int[quadResolution * quadResolution * 2 * 3];
-
-            Func<int, int, int> triangleId = (x, z) => (x + z * quadResolution) * 2 * 3;
-            Func<int, int, int> vertexId = (x, z) => x + z * Resolution;
-
-            for (var z = 0; z < Resolution - 1; z++)
-            {
-                for (var x = 0; x < Resolution - 1; x++)
-                {
-                    var triangleOffset = triangleId(x, z);
-                    var index = 0;
-                    
-                    triangles[triangleOffset + index++] = vertexId(x, z);
-                    triangles[triangleOffset + index++] = vertexId(x, z + 1);
-                    triangles[triangleOffset + index++] = vertexId(x + 1, z);
-
-                    triangles[triangleOffset + index++] = vertexId(x + 1, z);
-                    triangles[triangleOffset + index++] = vertexId(x, z + 1);
-                    triangles[triangleOffset + index] = vertexId(x + 1, z + 1);
-                }
-            }
-
-            return triangles;
         }
     }
 }
