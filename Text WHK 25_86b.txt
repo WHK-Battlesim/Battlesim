@@ -1,29 +1,22 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw8400\paperh11900\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+Erklärung der Buchstaben
+A ? des Königlichen Preußisches Lagers, welches hinter Langen Reichenbach zwischen Torgau und Schilda gestanden.
+B Königliche Ungarische Armee unter Kommando Sr: Exzellenz des General Feld Marschalls Grafen von Daun, wie sich solche zwischen Torgau und Gras, weg gelagert.
+C Erste Kolonne des Preußischen linken Flügels welcher unter höchsteigener Anführung Sr Maj: des Königs zur Ballaille(?) marschiert über Moche, Rechna, Wildenhain, Groswig, auf Neiden.
+D Zweite Kolonne welche über Pechhütte, Jägerhaus und Brückendorf auf Eliniz gegangen.
+E Dritte Kolonne von Kavallerie, welche durch das Wildenhainische Koltz auf Vogelgesanf angerückt.
+F Ein Östereichisches Corps, welches sich bei Wildenhain im Gehölze postiert, sich aber bei Annäherung des Preußischen linken Flügels zurückgezogen.
+G Die Bathianuschen Dragoner(?) und eine Regiment Infanterie, welche sich nach einigen getanen Kanonenschüssen ebenfalls zurück gezogen.
+H Infanterie des Königlichen Preußischen linken Flügels, wie solche in die Ebene von Neiden zur Attacke vorgerückt.
+I Kavallerie des linken Flügels welche nach angegangener Attacke in die Gegend von Wölsad(?) angekommen.
+K Zweites Treffen der Kaiserlich-Königlichen Ungarischen Armee wie solche gegen den Preußischen linken Flügel Sronte(???) gemacht und selbigen anfänglich zweimal repoussiret(???).
+L Marsch des Königlichen Preußischen rechten Flügel unter Kommando des Generals von Ziehten auf der Leibtziger Straße
+M Ein Österreichisches Corps welches sich beim Eingang des Klitschen Holzes postiert und sich nach einigen Widerständen zurückgezogen.
+N Attacke des Preußischen rechten Flügels auf die Anhöhen bei Grasswig und Süplitz da den die dritte ? Infanterie des linken Flügels die Anhöhen exupiert(???) auch sich auf selbigen Sast(???) gesetzt.
+O Refraite(???) der Kaiserlich-Königlichen Ungarischen Armee, in der Nacht zwischen den 3. und 4. (?) über drei Schiffsbrücken bei Torgau jenseits der Elbe, auf Castorf(?) in die Gegend von Dresden.
+P Corps des Grafen von Lasei welches sich diesseits der Elbe gegen Belgern gezogen.
 
-\f0\fs24 \cf0 Erkl\'e4rung der Buchstaben\
-A ? des K\'f6niglichen Preu\'dfisches Lagers, welches hinter Langen Reichenbach zwischen Torgau und Schilda gestanden.\
-B K\'f6nigliche Ungarische Armee unter Kommando Sr: Exzellenz des General Feld Marschalls Grafen von Daun, wie sich solche zwischen Torgau und Gras, weg gelagert.\
-C Erste Kolonne des Preu\'dfischen linken Fl\'fcgels welcher unter h\'f6chsteigener Anf\'fchrung Sr Maj: des K\'f6nigs zur Ballaille(?) marschiert \'fcber Moche, Rechna, Wildenhain, Groswig, auf Neiden.\
-D Zweite Kolonne welche \'fcber Pechh\'fctte, J\'e4gerhaus und Br\'fcckendorf auf Eliniz gegangen.\
-E Dritte Kolonne von Kavallerie, welche durch das Wildenhainische Koltz auf Vogelgesanf anger\'fcckt.\
-F Ein \'d6stereichisches Corps, welches sich bei Wildenhain im Geh\'f6lze postiert, sich aber bei Ann\'e4herung des Preu\'dfischen linken Fl\'fcgels zur\'fcckgezogen.\
-G Die Bathianuschen Dragoner(?) und eine Regiment Infanterie, welche sich nach einigen getanen Kanonensch\'fcssen ebenfalls zur\'fcck gezogen.\
-H Infanterie des K\'f6niglichen Preu\'dfischen linken Fl\'fcgels, wie solche in die Ebene von Neiden zur Attacke vorger\'fcckt.\
-I Kavallerie des linken Fl\'fcgels welche nach angegangener Attacke in die Gegend von W\'f6lsad(?) angekommen.\
-K Zweites Treffen der Kaiserlich-K\'f6niglichen Ungarischen Armee wie solche gegen den Preu\'dfischen linken Fl\'fcgel Sronte(???) gemacht und selbigen anf\'e4nglich zweimal repoussiret(???).\
-L Marsch des K\'f6niglichen Preu\'dfischen rechten Fl\'fcgel unter Kommando des Generals von Ziehten auf der Leibtziger Stra\'dfe\
-M Ein \'d6sterreichisches Corps welches sich beim Eingang des Klitschen Holzes postiert und sich nach einigen Widerst\'e4nden zur\'fcckgezogen.\
-N Attacke des Preu\'dfischen rechten Fl\'fcgels auf die Anh\'f6hen bei Grasswig und S\'fcplitz da den die dritte ? Infanterie des linken Fl\'fcgels die Anh\'f6hen exupiert(???) auch sich auf selbigen Sast(???) gesetzt.\
-O Refraite(???) der Kaiserlich-K\'f6niglichen Ungarischen Armee, in der Nacht zwischen den 3. und 4. (?) \'fcber drei Schiffsbr\'fccken bei Torgau jenseits der Elbe, auf Castorf(?) in die Gegend von Dresden.\
-P Corps des Grafen von Lasei welches sich diesseits der Elbe gegen Belgern gezogen.\
-\
-\
-Kasten unten: Plan der Bataille welche den 3. November 1760 von der Kaiserlich-K\'f6niglichen Ungarischen und der K\'f6niglichen Preu\'dfischen Armee bei Torgau in Sachsen geliefert worden.\
-\
-\
-Ganz untern: gezeichnet von ???}
+
+Kasten unten: Plan der Bataille welche den 3. November 1760 von der Kaiserlich-Königlichen Ungarischen und der Königlichen Preußischen Armee bei Torgau in Sachsen geliefert worden.
+
+
+Ganz untern: gezeichnet von ???
