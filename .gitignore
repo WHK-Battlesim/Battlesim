@@ -93,3 +93,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+### Blender ###
+
+*.blend[1-9]
