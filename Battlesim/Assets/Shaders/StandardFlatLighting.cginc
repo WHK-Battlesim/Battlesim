@@ -8,7 +8,6 @@ float4 _Color;
 struct vertData
 {
     float4 position : POSITION;
-    float3 normal : NORMAL;
 };
 
 // Fragment data
@@ -25,7 +24,6 @@ struct fragData
 vertData vert(vertData input)
 {
     input.position = mul(unity_ObjectToWorld, input.position);
-    input.normal = UnityObjectToWorldNormal(input.normal);
     return input;
 }
 
