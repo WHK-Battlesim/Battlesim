@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
-using TriangleNet;
 using TriangleNet.Geometry;
 using TriangleNet.Meshing;
 
@@ -16,6 +13,9 @@ namespace Assets.Scripts
         public Vector3 Offset = Vector3.zero;
         public Vector3 Scale = new Vector3(10, 1, 10);
         public int NumberOfVertices = 10000;
+
+        public Color GrassColor = new Color(0.516f, 0.867f, 0.279f);
+        public Color WaterColor = new Color(0.2f, 0.2f, 0.8f);
 
         private void Start ()
         {
@@ -48,6 +48,7 @@ namespace Assets.Scripts
             mesh.RecalculateNormals();
 
             meshRenderer.material = Material;
+            meshRenderer.material.color = GrassColor;
         }
     }
 }

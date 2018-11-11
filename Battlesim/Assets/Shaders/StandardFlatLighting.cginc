@@ -36,8 +36,8 @@ vertData vert(vertData input)
 [maxvertexcount(3)]
 void geom(triangle vertData input[3], inout TriangleStream<fragData> outStream)
 {
-    float3 normal = (input[0].normal + input[1].normal + input[2].normal) / 3;
-    float4 color = max(0, dot(normal, _WorldSpaceLightPos0.xyz)) * _LightColor0;
+    float3 normal = normalize(cross(input[1].position - input[0].position, input[2].position - input[0].position));
+    float4 color = max(0, dot(normal, _WorldSpaceLightPos0.xyz)) * _LightColor0 * _Color + unity_AmbientSky;
 
     fragData o;
     o.color = color;
@@ -56,5 +56,5 @@ void geom(triangle vertData input[3], inout TriangleStream<fragData> outStream)
 
 float4 frag(fragData input) : SV_Target
 {
-    return input.color * _Color;
+    return input.color;
 }
