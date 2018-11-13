@@ -283,13 +283,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1189e5da95ea2264cae22666cddc8232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultHeightMap: {fileID: 2800000, guid: 14a1d8a62b335e7478751ae68651fa89, type: 3}
+  DefaultHeightMap: {fileID: 2800000, guid: aaa1cbac2feab77488859b6a6d42ee49, type: 3}
+  DefaultFeatureMap: {fileID: 2800000, guid: b01f0ed691d70ab48978795294395276, type: 3}
+  DefaultExtents: {fileID: 4900000, guid: 3ce055cc055cfe24a94e6502bb2a6b33, type: 3}
   Material: {fileID: 2100000, guid: 94c29f67da4562f43ba26d7bd84cb2d8, type: 2}
   Offset: {x: 0, y: 0, z: 0}
-  Scale: {x: 10, y: 4, z: 10}
+  Scale: 10
   NumberOfVertices: 10000
-  GrassColor: {r: 0.516, g: 0.867, b: 0.279, a: 1}
-  WaterColor: {r: 0, g: 0, b: 0, a: 0}
+  TerrainFeatures:
+  - Name: Land
+    FeatureMapColor: {r: 1, g: 1, b: 1, a: 1}
+    MeshColor: {r: 0.516, g: 0.867, b: 0.279, a: 1}
+  - Name: River
+    FeatureMapColor: {r: 0, g: 1, b: 0, a: 1}
+    MeshColor: {r: 0.2, g: 0.2, b: 0.8, a: 1}
+  - Name: Lake
+    FeatureMapColor: {r: 1, g: 0, b: 0, a: 1}
+    MeshColor: {r: 0.2, g: 0.2, b: 0.8, a: 1}
+  - Name: Fallback
+    FeatureMapColor: {r: 1, g: 0, b: 1, a: 1}
+    MeshColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &1921229072
 Transform:
   m_ObjectHideFlags: 0
