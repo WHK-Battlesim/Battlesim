@@ -10,24 +10,15 @@ namespace Assets.Scripts
 {
     public class MapGenerator : MonoBehaviour
     {
+        #region Inspector
         public Texture2D DefaultHeightMap;
         public Texture2D DefaultFeatureMap;
         public TextAsset DefaultExtents;
         public Material Material;
 
         public Vector3 Offset = Vector3.zero;
-        public float Scale = 10;
-        public int NumberOfVertices = 10000;
-
-        [Serializable]
-        public struct TerrainFeature
-        {
-            [HideInInspector]
-            public string Name;
-            public Color FeatureMapColor;
-            public Color MeshColor;
-
-        }
+        public Vector3 Scale = new Vector3(0.01f, 0.1f, 0.01f);
+        public int NumberOfVertices = 50000;
 
         public List<TerrainFeature> TerrainFeatures = new List<TerrainFeature>()
         {
@@ -56,10 +47,38 @@ namespace Assets.Scripts
                 MeshColor = Color.magenta
             },
         };
+        #endregion Inspector
+
+        #region Helper Classes
+        [Serializable]
+        public class Extents
+        {
+            public static implicit operator Extents(TextAsset extentJson)
+            {
+                return JsonUtility.FromJson<Extents>(extentJson.text);
+            }
+            
+            public double MinX;
+            public double MaxX;
+            public double MinY;
+            public double MaxY;
+
+            public Vector3 Scale => new Vector3((float) (MaxX - MinX), 1, (float) (MaxY - MinY));
+        }
+
+        [Serializable]
+        public class TerrainFeature
+        {
+            [HideInInspector]
+            public string Name;
+            public Color FeatureMapColor;
+            public Color MeshColor;
+        }
+        #endregion Helper Classes
 
         private void Start()
         {
-            BuildTerrain(DefaultHeightMap, DefaultFeatureMap);
+            BuildTerrain(DefaultHeightMap, DefaultFeatureMap, DefaultExtents);
         }
 
         private int GetFeatureId(Texture2D featureMap, Triangle triangle)
@@ -72,7 +91,7 @@ namespace Assets.Scripts
             return index;
         }
 
-        public void BuildTerrain(Texture2D heightMap, Texture2D featureMap)
+        public void BuildTerrain(Texture2D heightMap, Texture2D featureMap, Extents extents)
         {
             var terrain = new GameObject("Terrain");
             terrain.transform.SetParent(transform);
@@ -97,11 +116,14 @@ namespace Assets.Scripts
                 triangulatedMesh
                     .Vertices
                     .Select(
-                        vertex => new Vector3(
-                                 (float)vertex.X,
-                                 heightMap.GetPixelBilinear((float)vertex.X, (float)vertex.Y).r,
-                                 (float)vertex.Y)
-                             * Scale + Offset)
+                        vertex =>
+                            Offset +
+                            Vector3.Scale(
+                                    new Vector3(
+                                        (float)vertex.X,
+                                        heightMap.GetPixelBilinear((float)vertex.X, (float)vertex.Y).r * 255,
+                                        (float)vertex.Y),
+                                    Vector3.Scale(extents.Scale, Scale)))
                     .ToList());
 
             var triangleGroupVertices =

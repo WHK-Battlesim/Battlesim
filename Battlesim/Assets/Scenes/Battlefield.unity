@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -285,11 +285,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultHeightMap: {fileID: 2800000, guid: aaa1cbac2feab77488859b6a6d42ee49, type: 3}
   DefaultFeatureMap: {fileID: 2800000, guid: b01f0ed691d70ab48978795294395276, type: 3}
-  DefaultExtents: {fileID: 4900000, guid: 3ce055cc055cfe24a94e6502bb2a6b33, type: 3}
+  DefaultExtents: {fileID: 4900000, guid: a14455d08e2b5b14181101c61a8e51f5, type: 3}
   Material: {fileID: 2100000, guid: 94c29f67da4562f43ba26d7bd84cb2d8, type: 2}
   Offset: {x: 0, y: 0, z: 0}
-  Scale: 10
-  NumberOfVertices: 10000
+  Scale: {x: 0.01, y: 0.1, z: 0.01}
+  NumberOfVertices: 50000
   TerrainFeatures:
   - Name: Land
     FeatureMapColor: {r: 1, g: 1, b: 1, a: 1}
