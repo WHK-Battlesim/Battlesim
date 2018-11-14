@@ -1,4 +1,4 @@
-﻿Shader "Standard (Flat Lighting)"
+﻿Shader "Fallback"
 {
     Properties
     {
@@ -11,11 +11,9 @@
             Tags { "LightMode"="ForwardBase" }
             CGPROGRAM
             #pragma vertex vert
-            #pragma geometry geom
             #pragma fragment frag
-            #include "StandardFlatLighting.cginc"
+            #include "Fallback.cginc"
             ENDCG
         }
     }
-	Fallback "Fallback"
 }
