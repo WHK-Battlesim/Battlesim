@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 534669905}
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
+  - component: {fileID: 534669906}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Untagged
@@ -256,6 +257,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &534669906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c77b34dc921d4c419ff9af3f8af811b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeightOffset: 10
+  TerrainHeightFactor: 1
+  ViewTarget: {x: 0, y: 0, z: 0}
+  MovementSpeed: 20
+  ElevationAngle: 45
+  ElevationSpeed: 15
+  MinElevation: 10
+  MaxElevation: 90
+  Rotation: 45
+  RotationSpeed: 40
+  Distance: 50
+  ZoomSpeed: 30
+  MinDistance: 3
+  MaxDistance: 200
 --- !u!1 &1724316208
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b1a0ee19cb181438f2242d868ad621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapGenerator: {fileID: 1921229071}
   UnitPrefab: {fileID: 1704644329298334, guid: ea6f55118bf4d5244ac36a9bbb4419fa, type: 2}
   Camera: {fileID: 534669904}
 --- !u!4 &1724316210

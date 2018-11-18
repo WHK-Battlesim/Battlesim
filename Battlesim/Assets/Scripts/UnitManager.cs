@@ -8,16 +8,19 @@ namespace Assets.Scripts
 {
     public class UnitManager : MonoBehaviour
     {
-        public MapGenerator MapGenerator;
         public GameObject UnitPrefab;
-        public Camera Camera;
 
         private readonly List<NavMeshAgent> _agents = new List<NavMeshAgent>();
         private NavMeshAgent _activeAgent;
+        private MapGenerator _mapGenerator;
+        private Camera _camera;
 
         void Start()
         {
-            var navMeshBounds = FindObjectOfType<MapGenerator>().GetComponentInChildren<MeshRenderer>().bounds;
+            _mapGenerator = FindObjectOfType<MapGenerator>();
+            _camera = FindObjectOfType<Camera>();
+
+            var navMeshBounds = _mapGenerator.GetComponentInChildren<MeshRenderer>().bounds;
 
             for (var z = -5; z < 5; z++)
             {
@@ -25,7 +28,7 @@ namespace Assets.Scripts
                 {
                     var xCoord = navMeshBounds.center.x + x;
                     var zCoord = navMeshBounds.center.z + z;
-                    _agents.Add(Instantiate(UnitPrefab, new Vector3(xCoord, MapGenerator.GetMapHeight(xCoord, zCoord), zCoord), Quaternion.identity, transform)
+                    _agents.Add(Instantiate(UnitPrefab, new Vector3(xCoord, _mapGenerator.GetMapHeight(xCoord, zCoord), zCoord), Quaternion.identity, transform)
                         .GetComponent<NavMeshAgent>());
                 }
             }
@@ -38,14 +41,14 @@ namespace Assets.Scripts
 
             if (!(left || right)) return;
             
-            var ray = Camera.ScreenPointToRay(Input.mousePosition);
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (!Physics.Raycast(ray, out hit)) return;
 
             if (left)
             {
-                _activeAgent = hit.collider.GetComponent<NavMeshAgent>();
+                _activeAgent = hit.collider.GetComponentInParent<NavMeshAgent>();
             }
             else // right
             {
