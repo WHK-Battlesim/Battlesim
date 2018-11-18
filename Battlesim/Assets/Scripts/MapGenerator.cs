@@ -5,6 +5,7 @@ using UnityEngine;
 using TriangleNet.Geometry;
 using TriangleNet.Meshing;
 using TriangleNet.Topology;
+using UnityEngine.AI;
 
 namespace Assets.Scripts
 {
@@ -49,6 +50,12 @@ namespace Assets.Scripts
         };
         #endregion Inspector
 
+        #region Private
+        private Texture2D _heightMap;
+        private Texture2D _featureMap;
+        private Extents _extents;
+        #endregion Private
+        
         #region Helper Classes
         [Serializable]
         public class Extents
@@ -81,18 +88,22 @@ namespace Assets.Scripts
             BuildTerrain(DefaultHeightMap, DefaultFeatureMap, DefaultExtents);
         }
 
-        private int GetFeatureId(Texture2D featureMap, Triangle triangle)
+        private int GetFeatureId(Triangle triangle)
         {
             var avgX = (triangle.vertices[0].X + triangle.vertices[1].X + triangle.vertices[2].X) / 3;
             var avgY = (triangle.vertices[0].Y + triangle.vertices[1].Y + triangle.vertices[2].Y) / 3;
-            var color = featureMap.GetPixel((int)Math.Round(featureMap.width * avgX),
-                                            (int)Math.Round(featureMap.height * avgY));
+            var color = _featureMap.GetPixel((int)Math.Round(_featureMap.width * avgX),
+                                             (int)Math.Round(_featureMap.height * avgY));
             var index = TerrainFeatures.FindIndex(terrainFeature => terrainFeature.FeatureMapColor == color) % TerrainFeatures.Count;
             return index;
         }
 
         public void BuildTerrain(Texture2D heightMap, Texture2D featureMap, Extents extents)
         {
+            _heightMap = heightMap;
+            _featureMap = featureMap;
+            _extents = extents;
+
             var terrain = new GameObject("Terrain");
             terrain.transform.SetParent(transform);
 
@@ -121,16 +132,16 @@ namespace Assets.Scripts
                             Vector3.Scale(
                                     new Vector3(
                                         (float)vertex.X,
-                                        heightMap.GetPixelBilinear((float)vertex.X, (float)vertex.Y).r * 255,
+                                        _heightMap.GetPixelBilinear((float)vertex.X, (float)vertex.Y).r * 255,
                                         (float)vertex.Y),
-                                    Vector3.Scale(extents.Scale, Scale)))
+                                    Vector3.Scale(_extents.Scale, Scale)))
                     .ToList());
 
             var triangleGroupVertices =
                 triangulatedMesh
                     .Triangles
                     .GroupBy(
-                        triangle => GetFeatureId(featureMap, triangle))
+                        GetFeatureId)
                     .Select(
                         grouping => new Tuple<int, IEnumerable<int>>(
                             grouping.Key,
@@ -155,6 +166,20 @@ namespace Assets.Scripts
 
             meshRenderer.materials = materials;
             mesh.RecalculateNormals();
+            
+            var meshCollider = terrain.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = mesh;
+
+            var navMesh = GetComponent<NavMeshSurface>();
+
+            navMesh.BuildNavMesh();
+        }
+
+        public float GetMapHeight(float x, float z)
+        {
+            var texturePosX = (x - Offset.x) / Scale.x / _extents.Scale.x;
+            var texturePosY = (z - Offset.z) / Scale.z / _extents.Scale.z;
+            return _heightMap.GetPixelBilinear(texturePosX, texturePosY).r * 255 * _extents.Scale.y * Scale.y + Offset.y;
         }
     }
 }
