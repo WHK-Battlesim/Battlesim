@@ -1,14 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class Unit : MonoBehaviour
+namespace Assets.Scripts
 {
-    public int MaxHealth;
-    public double MaxMoral;
+    public class Unit : MonoBehaviour
+    {
+        public int MaxHealth;
+        public double MaxMoral;
+        public double Accuracy;
+        public double Damage; // reduziert evasion
+        public double Evasion;
+        public double Range;
+        public double MoralDamage;
+        public double Spacing;
+        public double AreaDamage;
 
-    private NavMeshAgent _agent;
-    private int _health;
-    private double _moral;
+        private NavMeshAgent _agent;
+        private int _health;
+        private double _moral;
+    }
 }
