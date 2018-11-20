@@ -8,27 +8,34 @@ using System.Linq;
 public class ButtonController : MonoBehaviour {
 
     public GameObject buttonPrefab;
+    public GameObject descriptionTextBox;
 
 	// Use this for initialization
 	void Start () {
-        var availibleMaps = AssetDatabase.GetSubFolders("Assets/Data");
-        char[] delimiter = new char[] { '/' };
+        var availibleMaps = AssetDatabase.GetSubFolders("Assets/Resources");
         foreach (var subfolder in availibleMaps) {
-            name = subfolder.Split(delimiter).Last();
-            GenerateButton(name);
+            GenerateButton(subfolder);
         }
 	}
 	
-    void GenerateButton(string text) {
+    void GenerateButton(string subfolder) {
+        char[] delimiter = new char[] { '/' };
+        var splitPath = subfolder.Split(delimiter);
+        var buttonName = subfolder.Split(delimiter).Last();
+        var resourcePath = string.Join("", subfolder.Split(delimiter).Skip(2));
+
+        TextAsset descriptionAsset = Resources.Load<TextAsset>(resourcePath + "/Description");
+        string description = descriptionAsset != null ? descriptionAsset.text : "Description missing";
+
         GameObject button = Instantiate(buttonPrefab);
         button.transform.parent = gameObject.transform;
-        button.GetComponentInChildren<Text>().text = text;
+        button.GetComponentInChildren<Text>().text = buttonName;
 
         button.GetComponent<Button>().onClick.AddListener(
-            () => ButtonClick(text));
+            () => ButtonClick(description));
     }
 
     void ButtonClick(string text) {
-        Debug.Log(text);
+        descriptionTextBox.GetComponent<Text>().text = text;
     }
 }
