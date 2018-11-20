@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
+using System.Linq;
 
 public class ButtonController : MonoBehaviour {
 
@@ -9,8 +11,11 @@ public class ButtonController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        for (int i = 0; i < 5; i++) {
-            GenerateButton("Button" + i.ToString());
+        var availibleMaps = AssetDatabase.GetSubFolders("Assets/Data");
+        char[] delimiter = new char[] { '/' };
+        foreach (var subfolder in availibleMaps) {
+            name = subfolder.Split(delimiter).Last();
+            GenerateButton(name);
         }
 	}
 	
