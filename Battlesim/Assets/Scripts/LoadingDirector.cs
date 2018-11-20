@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -27,6 +28,8 @@ namespace Assets.Scripts
         private float _totalWeight;
         private float _weightBeforeCurrent;
         private int _currentIndex;
+        private Slider _progressBarSlider;
+        private Text _progressBarText;
 
         #endregion Private
 
@@ -36,6 +39,9 @@ namespace Assets.Scripts
             _totalWeight = ElementsToLoad.Sum(e => e.Weight);
             _currentIndex = 0;
             ElementsToLoad[_currentIndex].Enable();
+
+            _progressBarSlider = GetComponentInChildren<Slider>();
+            _progressBarText = GetComponentInChildren<Text>();
         }
 
         private void Update ()
@@ -61,7 +67,8 @@ namespace Assets.Scripts
 
             var currentWeight = (_weightBeforeCurrent + current.Weight * current.Progress / current.MaxProgress) / _totalWeight * 100f;
 
-            Debug.Log("Loading progress: " + (int)currentWeight + "% - Current step: " + current.Step);
+            _progressBarSlider.value = currentWeight;
+            _progressBarText.text = current.Step;
         }
 
         private void _logProgress()
@@ -109,6 +116,7 @@ namespace Assets.Scripts
             {
                 Step = step.Name;
                 yield return null;
+                yield return null; // needed to update UI properly
                 var start = DateTime.Now;
                 state = step.Action.Invoke(state);
                 var span = DateTime.Now - start;

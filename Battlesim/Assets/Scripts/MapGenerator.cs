@@ -103,7 +103,7 @@ namespace Assets.Scripts
             {
                 new LoadableStep()
                 {
-                    Name = "Preparing dependecies",
+                    Name = "Preparing dependencies",
                     ProgressValue = 1,
                     Action = _prepareDependencies
                 },
