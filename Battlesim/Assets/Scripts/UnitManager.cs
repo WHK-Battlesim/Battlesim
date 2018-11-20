@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using Input = UnityEngine.Input;
@@ -6,20 +8,61 @@ using MeshRenderer = UnityEngine.MeshRenderer;
 
 namespace Assets.Scripts
 {
-    public class UnitManager : MonoBehaviour
+    public class UnitManager : Loadable
     {
+        #region Inspector
+
         public GameObject UnitPrefab;
 
+        #endregion Inspector
+
+        #region Private
+        
         private readonly List<NavMeshAgent> _agents = new List<NavMeshAgent>();
         private NavMeshAgent _activeAgent;
         private MapGenerator _mapGenerator;
         private Camera _camera;
 
-        void Start()
+        #endregion Private
+
+        #region Loadable
+
+        public override void Initialize()
+        {
+            Steps = new List<LoadableStep>()
+            {
+                new LoadableStep()
+                {
+                    Name = "Preparing dependecies",
+                    ProgressValue = 1,
+                    Action = _prepareDependencies
+                },
+                new LoadableStep()
+                {
+                    Name = "Spawning units",
+                    ProgressValue = 4,
+                    Action = _spawnUnits
+                }
+            };
+            EnableType = LoadingDirector.EnableType.WholeGameObject;
+            Weight = 10f;
+            MaxProgress = Steps.Sum(s => s.ProgressValue);
+        }
+
+        #endregion Loadable
+
+        #region Start
+
+        private object _prepareDependencies(object state)
         {
             _mapGenerator = FindObjectOfType<MapGenerator>();
             _camera = FindObjectOfType<Camera>();
 
+            return state;
+        }
+
+        private object _spawnUnits(object state)
+        {
             var navMeshBounds = _mapGenerator.GetComponentInChildren<MeshRenderer>().bounds;
 
             for (var z = -5; z < 5; z++)
@@ -32,9 +75,13 @@ namespace Assets.Scripts
                         .GetComponent<NavMeshAgent>());
                 }
             }
+
+            return state;
         }
 
-        void Update()
+        #endregion Start
+
+        private void Update()
         {
             var left = Input.GetMouseButtonDown(0);
             var right = Input.GetMouseButtonDown(1);

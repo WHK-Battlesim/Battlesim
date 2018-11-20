@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class CameraController : MonoBehaviour
+    public class CameraController : Loadable
     {
+        #region Inspector
+
         [Header("Height")]
         public float HeightOffset = 10f;
         public float TerrainHeightFactor = 1.0f;
@@ -24,18 +29,50 @@ namespace Assets.Scripts
         public float ZoomSpeed = 15f;
         public float MinDistance = 3f;
         public float MaxDistance = 200f;
+
+        #endregion Inspector
+
+        #region Private
         
         private MapGenerator _mapGenerator;
 
-        void Start()
+        #endregion Private
+        
+        #region Loadable
+
+        public override void Initialize()
+        {
+            Steps = new List<LoadableStep>()
+            {
+                new LoadableStep()
+                {
+                    Name = "Enabling camera interaction",
+                    ProgressValue = 1,
+                    Action = _enableCamera
+                }
+            };
+            EnableType = LoadingDirector.EnableType.ComponentOnly;
+            Weight = 1f;
+            MaxProgress = Steps.Sum(s => s.ProgressValue);
+        }
+
+        #endregion Loadable
+
+        #region Start
+
+        private object _enableCamera(object state)
         {
             _mapGenerator = FindObjectOfType<MapGenerator>();
             var navMeshBounds = _mapGenerator.GetComponentInChildren<MeshRenderer>().bounds;
             ViewTarget = navMeshBounds.center;
             _moveCamera();
+
+            return state;
         }
-        
-        void Update()
+
+        #endregion Start
+
+        private void Update()
         {
             var xFactor = Input.GetAxis("Horizontal");
             var yFactor = Input.GetAxis("Vertical");
