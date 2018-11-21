@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.135, g: 0.14, b: 0.15, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -283,11 +283,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1189e5da95ea2264cae22666cddc8232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultHeightMap: {fileID: 2800000, guid: 14a1d8a62b335e7478751ae68651fa89, type: 3}
+  DefaultHeightMap: {fileID: 2800000, guid: aaa1cbac2feab77488859b6a6d42ee49, type: 3}
+  DefaultFeatureMap: {fileID: 2800000, guid: b01f0ed691d70ab48978795294395276, type: 3}
+  DefaultExtents: {fileID: 4900000, guid: a14455d08e2b5b14181101c61a8e51f5, type: 3}
   Material: {fileID: 2100000, guid: 94c29f67da4562f43ba26d7bd84cb2d8, type: 2}
   Offset: {x: 0, y: 0, z: 0}
-  Scale: {x: 10, y: 10, z: 10}
-  Resolution: 100
+  Scale: {x: 0.01, y: 0.1, z: 0.01}
+  NumberOfVertices: 50000
+  TerrainFeatures:
+  - Name: Land
+    FeatureMapColor: {r: 1, g: 1, b: 1, a: 1}
+    MeshColor: {r: 0.516, g: 0.867, b: 0.279, a: 1}
+  - Name: River
+    FeatureMapColor: {r: 0, g: 1, b: 0, a: 1}
+    MeshColor: {r: 0.2, g: 0.2, b: 0.8, a: 1}
+  - Name: Lake
+    FeatureMapColor: {r: 1, g: 0, b: 0, a: 1}
+    MeshColor: {r: 0.2, g: 0.2, b: 0.8, a: 1}
+  - Name: Fallback
+    FeatureMapColor: {r: 1, g: 0, b: 1, a: 1}
+    MeshColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &1921229072
 Transform:
   m_ObjectHideFlags: 0
