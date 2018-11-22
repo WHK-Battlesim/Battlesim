@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,14 +7,20 @@ namespace Assets.Scripts
 {
     public class UnitPrefabCreator : EditorWindow
     {
+        private enum ModelType
+        {
+            Unit,
+            House,
+            Tree
+        }
+
         private GameObject _selection;
         private bool _selectionValid;
-        private SkinnedMeshRenderer _skinnedMeshRenderer;
+        private Renderer _meshRenderer;
         private Shader _flatShader;
+        private ModelType _modelType = ModelType.Unit;
         private string _prefabParentFolder = "Assets/Prefabs";
-        private string _prefabFolderName = "Units";
         private string _shaderParentFolder = "Assets/Materials";
-        private string _shaderFolderName = "Units";
         private bool _overridePrefab;
         private bool _overrideMaterials;
 
@@ -40,14 +46,36 @@ namespace Assets.Scripts
         {
             _selection = Selection.activeGameObject;
 
-            if (_selection == null || _selection.GetComponent<Animator>() == null)
+            switch (_modelType)
             {
-                _selectionValid = false;
-                return;
+                case ModelType.Unit:
+                    _checkUnit();
+                    break;
+                case ModelType.House:
+                case ModelType.Tree:
+                    _checkStaticModel();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
-            _selectionValid = true;
-            _skinnedMeshRenderer = _selection.GetComponentInChildren<SkinnedMeshRenderer>();
+            if (_selectionValid)
+            {
+                _meshRenderer = _selection.GetComponentInChildren<Renderer>();
+            }
+        }
+
+        private void _checkUnit()
+        {
+            _selectionValid = (_selection != null &&
+                               _selection.GetComponent<Animator>() != null &&
+                               _selection.GetComponentInChildren<SkinnedMeshRenderer>() != null);
+        }
+
+        private void _checkStaticModel()
+        {
+            _selectionValid = (_selection != null &&
+                               _selection.GetComponentInChildren<MeshRenderer>() != null);
         }
 
         private void OnInspectorUpdate()
@@ -57,6 +85,13 @@ namespace Assets.Scripts
 
         private void OnGUI ()
         {
+            EditorGUI.BeginChangeCheck();
+            _modelType = (ModelType)EditorGUILayout.EnumPopup("Model Type", _modelType);
+            if (EditorGUI.EndChangeCheck())
+            {
+                _checkSelection();
+            }
+
             EditorGUILayout.LabelField(_selectionValid ? "Selection is valid." : "Selection is invalid.");
 
             EditorGUI.BeginDisabledGroup(!_selectionValid);
@@ -70,11 +105,9 @@ namespace Assets.Scripts
             EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Prefab options");
             _prefabParentFolder = EditorGUILayout.TextField("Parent folder", _prefabParentFolder);
-            _prefabFolderName = EditorGUILayout.TextField("Folder name", _prefabFolderName);
             _overridePrefab = EditorGUILayout.Toggle("Override existing prefab", _overridePrefab);
             EditorGUILayout.LabelField("Shader options");
             _shaderParentFolder = EditorGUILayout.TextField("Parent folder", _shaderParentFolder);
-            _shaderFolderName = EditorGUILayout.TextField("Folder name", _shaderFolderName);
             _overrideMaterials = EditorGUILayout.Toggle("Override existing materials", _overrideMaterials);
         }
 
@@ -82,10 +115,12 @@ namespace Assets.Scripts
         {
             Debug.Log("Processing " + _selection.name + "...");
 
-            _checkFolder(_prefabParentFolder, _prefabFolderName);
-            _checkFolder(_shaderParentFolder, _shaderFolderName);
+            var folderName = Enum.GetName(typeof(ModelType), _modelType) + "s";
 
-            var prefabPath = _prefabParentFolder + "/" + _prefabFolderName + "/" + _selection.name + ".prefab";
+            _checkFolder(_prefabParentFolder, folderName);
+            _checkFolder(_shaderParentFolder, folderName);
+
+            var prefabPath = _prefabParentFolder + "/" + folderName + "/" + _selection.name + ".prefab";
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
 
             if (prefab != null && !_overridePrefab)
@@ -96,11 +131,11 @@ namespace Assets.Scripts
                 return;
             }
 
-            var oldSharedMaterials = _skinnedMeshRenderer.sharedMaterials;
+            var oldSharedMaterials = _meshRenderer.sharedMaterials;
             var newSharedMaterials = new Material[oldSharedMaterials.Length];
             
-            _checkFolder(_shaderParentFolder, _shaderFolderName);
-            var folderPath = _shaderParentFolder + "/" + _shaderFolderName;
+            _checkFolder(_shaderParentFolder, folderName);
+            var folderPath = _shaderParentFolder + "/" + folderName;
 
             for (var i = 0; i < oldSharedMaterials.Length; i++)
             {
@@ -123,7 +158,7 @@ namespace Assets.Scripts
                 newSharedMaterials[i] = newMaterial;
             }
 
-            _skinnedMeshRenderer.sharedMaterials = newSharedMaterials;
+            _meshRenderer.sharedMaterials = newSharedMaterials;
 
             if (prefab == null)
             {
@@ -135,14 +170,17 @@ namespace Assets.Scripts
                 Debug.Log("Replacing existing prefab at " + prefabPath + ".");
             }
 
-            if (_selection.GetComponent<NavMeshAgent>() == null)
+            if (_modelType == ModelType.Unit)
             {
-                _selection.AddComponent<NavMeshAgent>();
-            }
+                if (_selection.GetComponent<NavMeshAgent>() == null)
+                {
+                    _selection.AddComponent<NavMeshAgent>();
+                }
 
-            if (_selection.GetComponent<Unit>() == null)
-            {
-                _selection.AddComponent<Unit>();
+                if (_selection.GetComponent<Unit>() == null)
+                {
+                    _selection.AddComponent<Unit>();
+                }
             }
 
             PrefabUtility.ReplacePrefab(_selection, prefab, ReplacePrefabOptions.ConnectToPrefab);
