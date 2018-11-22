@@ -1,16 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using TriangleNet.Geometry;
 using TriangleNet.Meshing;
 using TriangleNet.Topology;
+using Unity.Collections;
+using Unity.Jobs;
+using UnityEngine.AI;
+using Debug = System.Diagnostics.Debug;
+using Object = System.Object;
 
 namespace Assets.Scripts
 {
-    public class MapGenerator : MonoBehaviour
+    public class MapGenerator : Loadable
     {
         #region Inspector
+
         public Texture2D DefaultHeightMap;
         public Texture2D DefaultFeatureMap;
         public TextAsset DefaultExtents;
@@ -47,9 +55,19 @@ namespace Assets.Scripts
                 MeshColor = Color.magenta
             },
         };
+
         #endregion Inspector
 
+        #region Private
+        
+        private Texture2D _heightMap;
+        private Texture2D _featureMap;
+        private Extents _extents;
+
+        #endregion Private
+        
         #region Helper Classes
+
         [Serializable]
         public class Extents
         {
@@ -74,63 +92,135 @@ namespace Assets.Scripts
             public Color FeatureMapColor;
             public Color MeshColor;
         }
+
         #endregion Helper Classes
 
-        private void Start()
+        #region Loadable
+
+        public override void Initialize()
         {
-            BuildTerrain(DefaultHeightMap, DefaultFeatureMap, DefaultExtents);
+            Steps = new List<LoadableStep>()
+            {
+                new LoadableStep()
+                {
+                    Name = "Preparing dependencies",
+                    ProgressValue = 1,
+                    Action = _prepareDependencies
+                },
+                new LoadableStep()
+                {
+                    Name = "Randomizing terrain",
+                    ProgressValue = 2,
+                    Action = _randomizeTerrain
+                },
+                new LoadableStep()
+                {
+                    Name = "Triangulating terrain",
+                    ProgressValue = 4,
+                    Action = _triangulateTerrain
+                },
+                new LoadableStep()
+                {
+                    Name = "Building terrain mesh",
+                    ProgressValue = 2,
+                    Action = _buildTerrainMesh
+                },
+                new LoadableStep()
+                {
+                    Name = "Building navmesh",
+                    ProgressValue = 10,
+                    Action = _buildNavmesh
+                }
+            };
+            EnableType = LoadingDirector.EnableType.WholeGameObject;
+            Weight = 100f;
+            MaxProgress = Steps.Sum(s => s.ProgressValue);
         }
 
-        private int GetFeatureId(Texture2D featureMap, Triangle triangle)
+        #endregion Loadable
+
+        #region Start
+
+        private class SetupState
         {
-            var avgX = (triangle.vertices[0].X + triangle.vertices[1].X + triangle.vertices[2].X) / 3;
-            var avgY = (triangle.vertices[0].Y + triangle.vertices[1].Y + triangle.vertices[2].Y) / 3;
-            var color = featureMap.GetPixel((int)Math.Round(featureMap.width * avgX),
-                                            (int)Math.Round(featureMap.height * avgY));
-            var index = TerrainFeatures.FindIndex(terrainFeature => terrainFeature.FeatureMapColor == color) % TerrainFeatures.Count;
-            return index;
+            public GameObject Terrain;
+            public Mesh Mesh;
+            public Polygon Polygon;
+            public MeshRenderer MeshRenderer;
+            public IMesh TriangulatedMesh;
         }
 
-        public void BuildTerrain(Texture2D heightMap, Texture2D featureMap, Extents extents)
+        private object _prepareDependencies(object state)
         {
-            var terrain = new GameObject("Terrain");
-            terrain.transform.SetParent(transform);
+            var setupState = new SetupState();
 
-            var meshFilter = terrain.AddComponent<MeshFilter>();
-            var meshRenderer = terrain.AddComponent<MeshRenderer>();
+            // TODO: read these from static storage (will be set by map select screen)
+            _heightMap = DefaultHeightMap;
+            _featureMap = DefaultFeatureMap;
+            _extents = DefaultExtents;
 
-            var mesh = meshFilter.mesh;
-            mesh.Clear();
+            setupState.Terrain = new GameObject("Terrain");
+            setupState.Terrain.transform.SetParent(transform);
 
-            var polygon = new Polygon();
+            var meshFilter = setupState.Terrain.AddComponent<MeshFilter>();
+            setupState.MeshRenderer = setupState.Terrain.AddComponent<MeshRenderer>();
+
+            setupState.Mesh = meshFilter.mesh;
+            setupState.Mesh.Clear();
+
+            return setupState;
+        }
+
+        private object _randomizeTerrain(object state)
+        {
+            var setupState = state as SetupState;
+            Debug.Assert(setupState != null, nameof(setupState) + " != null");
+
+            setupState.Polygon = new Polygon();
             var random = new System.Random();
             for (var i = 0; i < NumberOfVertices; i++)
             {
-                polygon.Add(new Vertex(random.NextDouble(), random.NextDouble()));
+                setupState.Polygon.Add(new Vertex(random.NextDouble(), random.NextDouble()));
             }
 
-            var options = new ConstraintOptions { ConformingDelaunay = true };
-            var triangulatedMesh = polygon.Triangulate(options);
+            return setupState;
+        }
 
-            mesh.SetVertices(
-                triangulatedMesh
+        private object _triangulateTerrain(object state)
+        {
+            var setupState = state as SetupState;
+            Debug.Assert(setupState != null, nameof(setupState) + " != null");
+
+            var options = new ConstraintOptions { ConformingDelaunay = true };
+            setupState.TriangulatedMesh = setupState.Polygon.Triangulate(options);
+
+            return setupState;
+        }
+
+        private object _buildTerrainMesh(object state)
+        {
+            var setupState = state as SetupState;
+            Debug.Assert(setupState != null, nameof(setupState) + " != null");
+
+            setupState.Mesh.SetVertices(
+                setupState.TriangulatedMesh
                     .Vertices
                     .Select(
                         vertex =>
                             Offset +
                             Vector3.Scale(
-                                    new Vector3(
-                                        (float)vertex.X,
-                                        heightMap.GetPixelBilinear((float)vertex.X, (float)vertex.Y).r * 255,
-                                        (float)vertex.Y),
-                                    Vector3.Scale(extents.Scale, Scale)))
+                                new Vector3(
+                                    (float)vertex.X,
+                                    _heightMap.GetPixelBilinear((float)vertex.X, (float)vertex.Y).r * 255,
+                                    (float)vertex.Y),
+                                Vector3.Scale(_extents.Scale, Scale)))
                     .ToList());
 
             var triangleGroupVertices =
-                triangulatedMesh
+                setupState.TriangulatedMesh
                     .Triangles
                     .GroupBy(
-                        triangle => GetFeatureId(featureMap, triangle))
+                        GetFeatureId)
                     .Select(
                         grouping => new Tuple<int, IEnumerable<int>>(
                             grouping.Key,
@@ -140,12 +230,12 @@ namespace Assets.Scripts
                     .ToList();
 
             var triangleGroupCount = triangleGroupVertices.Count();
-            mesh.subMeshCount = triangleGroupCount;
+            setupState.Mesh.subMeshCount = triangleGroupCount;
 
             var materials = new Material[triangleGroupCount];
             foreach (var vertexGroup in triangleGroupVertices)
             {
-                mesh.SetTriangles(vertexGroup.Item2.ToArray(), vertexGroup.Item1);
+                setupState.Mesh.SetTriangles(vertexGroup.Item2.ToArray(), vertexGroup.Item1);
 
                 materials[vertexGroup.Item1] = new UnityEngine.Material(Material)
                 {
@@ -153,8 +243,43 @@ namespace Assets.Scripts
                 };
             }
 
-            meshRenderer.materials = materials;
-            mesh.RecalculateNormals();
+            setupState.MeshRenderer.materials = materials;
+            setupState.Mesh.RecalculateNormals();
+
+            return setupState;
+        }
+
+        private object _buildNavmesh(object state)
+        {
+            var setupState = state as SetupState;
+            Debug.Assert(setupState != null, nameof(setupState) + " != null");
+
+            var meshCollider = setupState.Terrain.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = setupState.Mesh;
+            
+            var navMesh = GetComponent<NavMeshSurface>();
+            navMesh.BuildNavMesh();
+
+            return setupState;
+        }
+
+        #endregion Start
+
+        private int GetFeatureId(Triangle triangle)
+        {
+            var avgX = (triangle.vertices[0].X + triangle.vertices[1].X + triangle.vertices[2].X) / 3;
+            var avgY = (triangle.vertices[0].Y + triangle.vertices[1].Y + triangle.vertices[2].Y) / 3;
+            var color = _featureMap.GetPixel((int)Math.Round(_featureMap.width * avgX),
+                                             (int)Math.Round(_featureMap.height * avgY));
+            var index = TerrainFeatures.FindIndex(terrainFeature => terrainFeature.FeatureMapColor == color) % TerrainFeatures.Count;
+            return index;
+        }
+
+        public float GetMapHeight(float x, float z)
+        {
+            var texturePosX = (x - Offset.x) / Scale.x / _extents.Scale.x;
+            var texturePosY = (z - Offset.z) / Scale.z / _extents.Scale.z;
+            return _heightMap.GetPixelBilinear(texturePosX, texturePosY).r * 255 * _extents.Scale.y * Scale.y + Offset.y;
         }
     }
 }
