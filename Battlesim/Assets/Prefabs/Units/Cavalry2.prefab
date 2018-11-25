@@ -488,6 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4797164632147384}
   - component: {fileID: 137842277951374700}
+  - component: {fileID: 64406717178990906}
   m_Layer: 0
   m_Name: Horse2Mesh
   m_TagString: Untagged
@@ -2044,6 +2045,20 @@ Transform:
   m_Father: {fileID: 4175358543779944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &64406717178990906
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1450049393773998}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 3b6fbe350c274cc4eb1378a205f79304, type: 3}
 --- !u!95 &95433488784014844
 Animator:
   serializedVersion: 3

@@ -533,6 +533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4337324509685572}
   - component: {fileID: 137540788336093314}
+  - component: {fileID: 64958504922688266}
   m_Layer: 0
   m_Name: Cannoneer1Mesh
   m_TagString: Untagged
@@ -1350,6 +1351,20 @@ Transform:
   m_Father: {fileID: 4229466293647586}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &64958504922688266
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737468412974268}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 5f4c0ad598ce6184e89a6e31dec52eb9, type: 3}
 --- !u!95 &95346817933888468
 Animator:
   serializedVersion: 3
