@@ -120,6 +120,13 @@ namespace Assets.Scripts
                 }
             }
 
+            foreach (var stat in _situation.Stats)
+            {
+                // TODO: read faction-specific stats
+                stat.ApplyTo(Prefabs[0].Prefabs[(int) stat.Class].Prefab);
+                stat.ApplyTo(Prefabs[1].Prefabs[(int) stat.Class].Prefab);
+            }
+
             foreach (var unit in _situation.Units)
             {
                 var unitInstance = Instantiate(
