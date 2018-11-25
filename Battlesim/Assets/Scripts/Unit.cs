@@ -76,11 +76,15 @@ namespace Assets.Scripts
             {
                 _agent.velocity = Vector3.zero;
             }
+            else
+            {
+                _agent.Move(transform.forward * Time.deltaTime * _agent.velocity.magnitude);
+            }
         }
 
         private void OnAnimatorMove()
         {
-            if(_agent!=null)
+            if (_agent != null)
                 transform.position = _agent.nextPosition;
         }
     }
