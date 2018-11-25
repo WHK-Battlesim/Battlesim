@@ -18,5 +18,18 @@ namespace Assets.Scripts
         private NavMeshAgent _agent;
         private int _health;
         private double _moral;
+
+        public enum Class
+        {
+            Infantry,
+            Cavalry,
+            Artillery
+        }
+
+        public enum Faction
+        {
+            Prussia,
+            Austria
+        }
     }
 }

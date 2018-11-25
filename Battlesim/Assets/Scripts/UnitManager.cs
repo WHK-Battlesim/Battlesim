@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +13,8 @@ namespace Assets.Scripts
     {
         #region Inspector
 
-        public GameObject UnitPrefab;
+        public TextAsset DefaultSituation;
+        public List<FactionPrefabs> Prefabs = FactionPrefabs.All();
 
         #endregion Inspector
 
@@ -22,8 +24,50 @@ namespace Assets.Scripts
         private NavMeshAgent _activeAgent;
         private MapGenerator _mapGenerator;
         private Camera _camera;
+        private Situation _situation;
 
         #endregion Private
+
+        #region HelperClasses
+
+        [Serializable]
+        public class FactionPrefabs
+        {
+            public static List<FactionPrefabs> All()
+            {
+                return ((Unit.Faction[])Enum.GetValues(typeof(Unit.Faction))).Select(faction => new FactionPrefabs(faction)).ToList();
+            }
+
+            private FactionPrefabs(Unit.Faction faction)
+            {
+                Name = faction.ToString();
+                Prefabs = ClassPrefab.All();
+            }
+
+            [HideInInspector]
+            public string Name;
+            public List<ClassPrefab> Prefabs;
+        }
+
+        [Serializable]
+        public class ClassPrefab
+        {
+            public static List<ClassPrefab> All()
+            {
+                return ((Unit.Class[])Enum.GetValues(typeof(Unit.Class))).Select(@class => new ClassPrefab(@class)).ToList();
+            }
+
+            private ClassPrefab(Unit.Class @class)
+            {
+                Name = @class.ToString();
+            }
+
+            [HideInInspector]
+            public string Name;
+            public GameObject Prefab;
+        }
+
+        #endregion HelperClasses
 
         #region Loadable
 
@@ -58,6 +102,8 @@ namespace Assets.Scripts
             _mapGenerator = FindObjectOfType<MapGenerator>();
             _camera = FindObjectOfType<Camera>();
 
+            _situation = JsonUtility.FromJson<Situation>(DefaultSituation.text);
+
             return state;
         }
 
@@ -65,15 +111,24 @@ namespace Assets.Scripts
         {
             var navMeshBounds = _mapGenerator.GetComponentInChildren<MeshRenderer>().bounds;
 
-            for (var z = -5; z < 5; z++)
+            foreach (var unitClass in (Unit.Class[]) Enum.GetValues(typeof(Unit.Class)))
             {
-                for (var x = -5; x < 5; x++)
+                foreach (var prefab in Prefabs)
                 {
-                    var xCoord = navMeshBounds.center.x + x;
-                    var zCoord = navMeshBounds.center.z + z;
-                    _agents.Add(Instantiate(UnitPrefab, new Vector3(xCoord, _mapGenerator.GetMapHeight(xCoord, zCoord), zCoord), Quaternion.identity, transform)
-                        .GetComponent<NavMeshAgent>());
+                    prefab.Prefabs[(int) unitClass].Prefab.GetComponent<NavMeshAgent>().agentTypeID =
+                        _mapGenerator.NavMeshDictionary[unitClass].agentTypeID;
                 }
+            }
+
+            foreach (var unit in _situation.Units)
+            {
+                var unitInstance = Instantiate(
+                    Prefabs[(int) unit.Faction].Prefabs[(int) unit.Class].Prefab,
+                    _mapGenerator.RealWorldToUnity(unit.Position),
+                    Quaternion.identity,
+                    transform);
+                var navMeshAgent = unitInstance.GetComponent<NavMeshAgent>();
+                _agents.Add(navMeshAgent);
             }
 
             return state;
