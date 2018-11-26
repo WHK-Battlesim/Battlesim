@@ -158,7 +158,7 @@ namespace Assets.Scripts
                 Instantiate(
                     prefabDict[unit.Faction][unit.Class],
                     _mapGenerator.RealWorldToUnity(unit.Position),
-                    Quaternion.identity,
+                    Quaternion.AngleAxis(unit.Rotation, Vector3.up),
                     unitsWrapper);
             }
 

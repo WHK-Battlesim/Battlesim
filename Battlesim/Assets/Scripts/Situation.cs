@@ -17,6 +17,7 @@ namespace Assets.Scripts
             public Unit.Class Class;
             public Unit.Faction Faction;
             public Vector2 Position;
+            public float Rotation;
         }
 
         [Serializable]
