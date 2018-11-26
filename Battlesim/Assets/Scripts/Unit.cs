@@ -14,7 +14,7 @@ namespace Assets.Scripts
          * If the moral falls to zero, the unit surrenders.
          */
         public int InitialCount;
-        public double InitialMoral;
+        public double InitialMorale;
 
         /*
          * Physical damage stats:
@@ -32,7 +32,7 @@ namespace Assets.Scripts
          * Psychological damage stats:
          * How much of the enemy's moral is depleted when attacking.
          */
-        public double MoralDamage;
+        public double MoraleDamage;
 
         /*
          * Area damage stats:

@@ -43,12 +43,12 @@
             "Combat":
             {
                 "Count": 112,
-                "Moral": 500,
+                "Morale": 500,
                 "Health": 100,
                 "Damage": 10,
                 "Accuracy": 10,
                 "Range": 2,
-                "MoralDamage": 1,
+                "MoraleDamage": 1,
                 "AreaDamage": 1,
                 "Spacing": 5
             }
@@ -64,12 +64,12 @@
             "Combat":
             {
                 "Count": 132,
-                "Moral": 500,
+                "Morale": 500,
                 "Health": 100,
                 "Damage": 50,
                 "Accuracy": 100,
                 "Range": 0.1,
-                "MoralDamage": 3,
+                "MoraleDamage": 3,
                 "AreaDamage": 1,
                 "Spacing": 7
             }
@@ -85,12 +85,12 @@
             "Combat":
             {
                 "Count": 1,
-                "Moral": 500,
+                "Morale": 500,
                 "Health": 100,
                 "Damage": 150,
                 "Accuracy": 50,
                 "Range": 4,
-                "MoralDamage": 5,
+                "MoraleDamage": 5,
                 "AreaDamage": 10,
                 "Spacing": 15
             }
