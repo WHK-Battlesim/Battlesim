@@ -685,6 +685,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultSituation: {fileID: 4900000, guid: 9c97979fc86a73545a89aeca50789c8f, type: 3}
   EditorMode: 1
+  EditorHandle: {fileID: 1873318211003840, guid: d02c293e371cbd248b5f16cc3ee75486,
+    type: 2}
   Prefabs:
   - Name: Prussia
     Prefabs:

@@ -15,6 +15,7 @@ namespace Assets.Scripts
 
         public TextAsset DefaultSituation;
         public bool EditorMode;
+        public GameObject EditorHandle;
         public List<FactionPrefabs> Prefabs = FactionPrefabs.All();
 
         #endregion Inspector
@@ -25,6 +26,13 @@ namespace Assets.Scripts
         private MapGenerator _mapGenerator;
         private Camera _camera;
         private Situation _situation;
+
+        private GameObject _editorHandle;
+        private SphereCollider _xAxisCollider;
+        private SphereCollider _zAxisCollider;
+        private SphereCollider _rotationCollider;
+        private SphereCollider _activeHandle;
+        private Vector3 _dragStartPosition;
 
         #endregion Private
 
@@ -169,31 +177,45 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            var left = Input.GetMouseButtonDown(0);
-            var right = Input.GetMouseButtonDown(1);
-
+            var leftDown = Input.GetMouseButtonDown(0);
+            var leftHold = Input.GetMouseButton(0);
+            var leftUp = Input.GetMouseButtonUp(0);
+            var rightDown = Input.GetMouseButtonDown(1);
+            var rightHold = Input.GetMouseButton(1);
+            var rightUp = Input.GetMouseButtonUp(1);
+            
+            var down = leftDown || rightDown;
+            var up = leftUp || rightUp;
+            var left = leftDown || leftHold || leftUp;
+            var right = rightDown || rightHold || rightUp;
+            
             if (!(left || right)) return;
+
+            var clickType = down ? 1 : (up ? -1 : 0);
+            var mousePosition = Input.mousePosition;
+
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            var raycastHit = Physics.Raycast(ray, out hit);
 
             if (EditorMode)
             {
-                HandleUserInteractionForEditor(left, right);
+                HandleUserInteractionForEditor(clickType, left, mousePosition, raycastHit, hit);
             }
             else
             {
-                HandleUserInteractionForSimulation(left, right);
+                HandleUserInteractionForSimulation(clickType, left, mousePosition, raycastHit, hit);
             }
         }
 
-        private void HandleUserInteractionForSimulation(bool left, bool right)
+        private void HandleUserInteractionForSimulation(int clickType, bool left, Vector3 mousePosition, bool raycastHit, RaycastHit hit)
         {
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (!Physics.Raycast(ray, out hit)) return;
-
             if (left)
             {
-                _activeAgent = hit.collider.GetComponentInParent<NavMeshAgent>();
+                if(raycastHit)
+                {
+                    _activeAgent = hit.collider.GetComponentInParent<NavMeshAgent>();
+                }
             }
             else // right
             {
@@ -204,9 +226,79 @@ namespace Assets.Scripts
             }
         }
 
-        private void HandleUserInteractionForEditor(bool left, bool right)
+        private void HandleUserInteractionForEditor(int clickType, bool left, Vector3 mousePosition, bool raycastHit, RaycastHit hit)
         {
-            // TODO
+            if (!left) return;
+
+            if (IsUnit(hit.collider))
+            {
+                if (clickType == 1)
+                {
+                    ShowHandle(hit.transform);
+                }
+            }
+            else if(IsHandle(hit.collider))
+            {
+                switch (clickType)
+                {
+                    case 1:
+                        _activeHandle = hit.collider as SphereCollider;
+                        _dragStartPosition = _camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, _camera.transform.position.z));
+                        break;
+                    case 0:
+                        HandleMoved(mousePosition);
+                        break;
+                    case -1:
+                        _activeHandle = null;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                HideHandle();
+            }
+        }
+
+        private static bool IsUnit(Component hitCollider)
+        {
+            return hitCollider is MeshCollider
+                   && hitCollider.GetComponent<SkinnedMeshRenderer>() != null;
+        }
+
+        private static bool IsHandle(Component hitCollider)
+        {
+            return hitCollider is SphereCollider
+                   && hitCollider.GetComponent<MeshRenderer>() != null
+                   && hitCollider.GetComponent<MeshFilter>() != null;
+        }
+
+        private void ShowHandle(Transform parent)
+        {
+            if (_editorHandle == null)
+            {
+                _editorHandle = Instantiate(EditorHandle);
+                _xAxisCollider = _editorHandle.transform.Find("XAxisHandle").gameObject.GetComponent<SphereCollider>();
+                _zAxisCollider = _editorHandle.transform.Find("ZAxisHandle").gameObject.GetComponent<SphereCollider>();
+                _rotationCollider = _editorHandle.transform.Find("RotationHandle").gameObject.GetComponent<SphereCollider>();
+            }
+
+            _editorHandle.transform.SetParent(parent, false);
+            _editorHandle.SetActive(true);
+        }
+
+        private void HideHandle()
+        {
+            _editorHandle.SetActive(false);
+        }
+
+        private void HandleMoved(Vector3 newMousePosition)
+        {
+            var draggedTo = _camera.ScreenToWorldPoint(new Vector3(newMousePosition.x, newMousePosition.y, _camera.transform.position.z));
+
+            _editorHandle.transform.position += draggedTo - _dragStartPosition;
+            _dragStartPosition = draggedTo;
         }
     }
 }
