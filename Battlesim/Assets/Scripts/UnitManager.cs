@@ -142,13 +142,14 @@ namespace Assets.Scripts
                 stat.ApplyTo(prefabDict[Unit.Faction.Austria][stat.Class]);
             }
 
+            var unitsWrapper = transform.Find("Units");
             foreach (var unit in _situation.Units)
             {
                 var unitInstance = Instantiate(
                     prefabDict[unit.Faction][unit.Class],
                     _mapGenerator.RealWorldToUnity(unit.Position),
                     Quaternion.identity,
-                    transform);
+                    unitsWrapper);
                 var navMeshAgent = unitInstance.GetComponent<NavMeshAgent>();
                 _agents.Add(navMeshAgent);
             }
