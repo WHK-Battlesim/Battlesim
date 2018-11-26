@@ -684,6 +684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultSituation: {fileID: 4900000, guid: 9c97979fc86a73545a89aeca50789c8f, type: 3}
+  EditorMode: 1
   Prefabs:
   - Name: Prussia
     Prefabs:
@@ -811,6 +812,7 @@ MonoBehaviour:
   - Name: Fallback
     FeatureMapColor: {r: 1, g: 0, b: 1, a: 1}
     MeshColor: {r: 1, g: 0, b: 1, a: 1}
+  EditorMode: 1
 --- !u!4 &1921229072
 Transform:
   m_ObjectHideFlags: 0

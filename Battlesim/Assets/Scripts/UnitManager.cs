@@ -14,13 +14,13 @@ namespace Assets.Scripts
         #region Inspector
 
         public TextAsset DefaultSituation;
+        public bool EditorMode;
         public List<FactionPrefabs> Prefabs = FactionPrefabs.All();
 
         #endregion Inspector
 
         #region Private
         
-        private readonly List<NavMeshAgent> _agents = new List<NavMeshAgent>();
         private NavMeshAgent _activeAgent;
         private MapGenerator _mapGenerator;
         private Camera _camera;
@@ -130,8 +130,18 @@ namespace Assets.Scripts
             {
                 foreach (var unitClass in faction)
                 {
-                    unitClass.Value.GetComponent<NavMeshAgent>().agentTypeID =
-                        _mapGenerator.NavMeshDictionary[unitClass.Key].agentTypeID;
+                    if(!EditorMode)
+                    {
+                        unitClass.Value.GetComponent<NavMeshAgent>().agentTypeID =
+                            _mapGenerator.NavMeshDictionary[unitClass.Key].agentTypeID;
+                    }
+                    else
+                    {
+                        // remove all unnecessary 
+                        Destroy(unitClass.Value.GetComponent<Unit>());
+                        Destroy(unitClass.Value.GetComponent<Animator>());
+                        Destroy(unitClass.Value.GetComponent<NavMeshAgent>());
+                    }
                 }
             }
 
@@ -145,13 +155,11 @@ namespace Assets.Scripts
             var unitsWrapper = transform.Find("Units");
             foreach (var unit in _situation.Units)
             {
-                var unitInstance = Instantiate(
+                Instantiate(
                     prefabDict[unit.Faction][unit.Class],
                     _mapGenerator.RealWorldToUnity(unit.Position),
                     Quaternion.identity,
                     unitsWrapper);
-                var navMeshAgent = unitInstance.GetComponent<NavMeshAgent>();
-                _agents.Add(navMeshAgent);
             }
 
             return state;
@@ -165,7 +173,19 @@ namespace Assets.Scripts
             var right = Input.GetMouseButtonDown(1);
 
             if (!(left || right)) return;
-            
+
+            if (EditorMode)
+            {
+                HandleUserInteractionForEditor(left, right);
+            }
+            else
+            {
+                HandleUserInteractionForSimulation(left, right);
+            }
+        }
+
+        private void HandleUserInteractionForSimulation(bool left, bool right)
+        {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -182,6 +202,11 @@ namespace Assets.Scripts
                     _activeAgent.SetDestination(hit.point);
                 }
             }
+        }
+
+        private void HandleUserInteractionForEditor(bool left, bool right)
+        {
+            // TODO
         }
     }
 }

@@ -55,6 +55,8 @@ namespace Assets.Scripts
                 MeshColor = Color.magenta
             },
         };
+        
+        public bool EditorMode;
 
         #endregion Inspector
 
@@ -131,31 +133,37 @@ namespace Assets.Scripts
                     ProgressValue = 2,
                     Action = _buildTerrainMesh
                 },
-                new LoadableStep()
+                EditorMode ? null : new LoadableStep()
                 {
                     Name = "Preparing navmeshes",
                     ProgressValue = 1,
                     Action = _prepareNavmeshes
                 },
-                new LoadableStep()
+                EditorMode ? null : new LoadableStep()
                 {
                     Name = "Building infantry navmesh",
                     ProgressValue = 10,
                     Action = _buildInfantryNavmesh
                 },
-                new LoadableStep()
+                EditorMode ? null : new LoadableStep()
                 {
                     Name = "Building cavalry navmesh",
                     ProgressValue = 10,
                     Action = _buildCavalryNavmesh
                 },
-                new LoadableStep()
+                EditorMode ? null : new LoadableStep()
                 {
                     Name = "Building artillery navmesh",
                     ProgressValue = 10,
                     Action = _buildArtilleryNavmesh
                 },
-            };
+                !EditorMode ? null : new LoadableStep()
+                {
+                    Name = "Cleaning up",
+                    ProgressValue = 1,
+                    Action = _removeNavMesh
+                }
+            }.Where(s => s != null).ToList();
             EnableType = LoadingDirector.EnableType.WholeGameObject;
             Weight = 100f;
             MaxProgress = Steps.Sum(s => s.ProgressValue);
@@ -304,6 +312,16 @@ namespace Assets.Scripts
         private object _buildArtilleryNavmesh(object state)
         {
             NavMeshDictionary[Unit.Class.Artillery].BuildNavMesh();
+
+            return state;
+        }
+
+        private object _removeNavMesh(object state)
+        {
+            foreach (var navMeshSurface in GetComponents<NavMeshSurface>())
+            {
+                Destroy(navMeshSurface);
+            }
 
             return state;
         }
