@@ -111,26 +111,41 @@ namespace Assets.Scripts
         {
             var navMeshBounds = _mapGenerator.GetComponentInChildren<MeshRenderer>().bounds;
 
-            foreach (var unitClass in (Unit.Class[]) Enum.GetValues(typeof(Unit.Class)))
+            // create copies of prefabs to avoid changing the actual prefabs
+            var prefabsWrapper = transform.Find("Prefabs");
+            var prefabDict = new Dictionary<Unit.Faction, Dictionary<Unit.Class, GameObject>>();
+            for (var faction = 0; faction < Prefabs.Count; faction++)
             {
-                foreach (var prefab in Prefabs)
+                var factionPrefabs = Prefabs[faction];
+                var factionDict = new Dictionary<Unit.Class, GameObject>();
+                for (var unitClass = 0; unitClass < factionPrefabs.Prefabs.Count; unitClass++)
                 {
-                    prefab.Prefabs[(int) unitClass].Prefab.GetComponent<NavMeshAgent>().agentTypeID =
-                        _mapGenerator.NavMeshDictionary[unitClass].agentTypeID;
+                    var classPrefab = factionPrefabs.Prefabs[unitClass];
+                    factionDict.Add((Unit.Class) unitClass, Instantiate(classPrefab.Prefab, prefabsWrapper));
+                }
+                prefabDict.Add((Unit.Faction) faction, factionDict);
+            }
+
+            foreach (var faction in prefabDict.Values)
+            {
+                foreach (var unitClass in faction)
+                {
+                    unitClass.Value.GetComponent<NavMeshAgent>().agentTypeID =
+                        _mapGenerator.NavMeshDictionary[unitClass.Key].agentTypeID;
                 }
             }
 
             foreach (var stat in _situation.Stats)
             {
                 // TODO: read faction-specific stats
-                stat.ApplyTo(Prefabs[0].Prefabs[(int) stat.Class].Prefab);
-                stat.ApplyTo(Prefabs[1].Prefabs[(int) stat.Class].Prefab);
+                stat.ApplyTo(prefabDict[Unit.Faction.Prussia][stat.Class]);
+                stat.ApplyTo(prefabDict[Unit.Faction.Austria][stat.Class]);
             }
 
             foreach (var unit in _situation.Units)
             {
                 var unitInstance = Instantiate(
-                    Prefabs[(int) unit.Faction].Prefabs[(int) unit.Class].Prefab,
+                    prefabDict[unit.Faction][unit.Class],
                     _mapGenerator.RealWorldToUnity(unit.Position),
                     Quaternion.identity,
                     transform);
