@@ -193,6 +193,7 @@ namespace Assets.Scripts
 
             setupState.Terrain = new GameObject("Terrain");
             setupState.Terrain.transform.SetParent(transform);
+            setupState.Terrain.layer = LayerMask.NameToLayer("Terrain");
 
             var meshFilter = setupState.Terrain.AddComponent<MeshFilter>();
             setupState.MeshRenderer = setupState.Terrain.AddComponent<MeshRenderer>();
@@ -278,6 +279,9 @@ namespace Assets.Scripts
             setupState.MeshRenderer.materials = materials;
             setupState.Mesh.RecalculateNormals();
 
+            var meshCollider = setupState.Terrain.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = setupState.Mesh;
+
             return setupState;
         }
 
@@ -285,9 +289,6 @@ namespace Assets.Scripts
         {
             var setupState = state as SetupState;
             Debug.Assert(setupState != null, nameof(setupState) + " != null");
-
-            var meshCollider = setupState.Terrain.AddComponent<MeshCollider>();
-            meshCollider.sharedMesh = setupState.Mesh;
 
             NavMeshDictionary = GetComponents<NavMeshSurface>()
                 .ToDictionary(navMeshSurface => (Unit.Class)Enum.Parse(typeof(Unit.Class), NavMesh.GetSettingsNameFromID(navMeshSurface.agentTypeID)));

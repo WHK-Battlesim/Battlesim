@@ -15,24 +15,22 @@ namespace Assets.Scripts
 
         public TextAsset DefaultSituation;
         public bool EditorMode;
-        public GameObject EditorHandle;
+        public GameObject EditorSelectionMarker;
         public List<FactionPrefabs> Prefabs = FactionPrefabs.All();
 
         #endregion Inspector
 
         #region Private
-        
+
         private NavMeshAgent _activeAgent;
         private MapGenerator _mapGenerator;
         private Camera _camera;
         private Situation _situation;
-
-        private GameObject _editorHandle;
-        private SphereCollider _xAxisCollider;
-        private SphereCollider _zAxisCollider;
-        private SphereCollider _rotationCollider;
-        private SphereCollider _activeHandle;
-        private Vector3 _dragStartPosition;
+        
+        private Transform _selection;
+        private GameObject _editorSelectionMarker;
+        private Quaternion _startRotation;
+        private Vector2 _startMousePosition;
 
         #endregion Private
 
@@ -178,86 +176,70 @@ namespace Assets.Scripts
         private void Update()
         {
             var leftDown = Input.GetMouseButtonDown(0);
-            var leftHold = Input.GetMouseButton(0);
-            var leftUp = Input.GetMouseButtonUp(0);
             var rightDown = Input.GetMouseButtonDown(1);
             var rightHold = Input.GetMouseButton(1);
-            var rightUp = Input.GetMouseButtonUp(1);
+            var middleDown = Input.GetMouseButtonDown(2);
+            var middleHold = Input.GetMouseButton(2);
             
-            var down = leftDown || rightDown;
-            var up = leftUp || rightUp;
-            var left = leftDown || leftHold || leftUp;
-            var right = rightDown || rightHold || rightUp;
-            
-            if (!(left || right)) return;
-
-            var clickType = down ? 1 : (up ? -1 : 0);
-            var mousePosition = Input.mousePosition;
+            if (!(leftDown || rightHold || rightDown || middleDown || middleHold)) return;
 
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            var raycastHit = Physics.Raycast(ray, out hit);
+            RaycastHit unitHit;
+            var unitRaycastHit = Physics.Raycast(ray, out unitHit, Mathf.Infinity, LayerMask.GetMask("Units"));
+            RaycastHit terrainHit;
+            var terrainRaycastHit = Physics.Raycast(ray, out terrainHit, Mathf.Infinity, LayerMask.GetMask("Terrain"));
 
             if (EditorMode)
             {
-                HandleUserInteractionForEditor(clickType, left, mousePosition, raycastHit, hit);
-            }
-            else
-            {
-                HandleUserInteractionForSimulation(clickType, left, mousePosition, raycastHit, hit);
-            }
-        }
-
-        private void HandleUserInteractionForSimulation(int clickType, bool left, Vector3 mousePosition, bool raycastHit, RaycastHit hit)
-        {
-            if (left)
-            {
-                if(raycastHit)
+                if (leftDown)
                 {
-                    _activeAgent = hit.collider.GetComponentInParent<NavMeshAgent>();
+                    if (unitRaycastHit && IsUnit(unitHit.collider))
+                    {
+                        _selection = unitHit.transform.parent;
+                        ShowHandle(_selection);
+                    }
+                    else
+                    {
+                        _selection = null;
+                        HideHandle();
+                    }
                 }
-            }
-            else // right
-            {
-                if (_activeAgent != null)
+                else if (rightHold)
                 {
-                    _activeAgent.SetDestination(hit.point);
+                    if (_selection == null) return;
+                    
+                    if (terrainRaycastHit)
+                    {
+                        _selection.position = terrainHit.point;
+                    }
                 }
-            }
-        }
-
-        private void HandleUserInteractionForEditor(int clickType, bool left, Vector3 mousePosition, bool raycastHit, RaycastHit hit)
-        {
-            if (!left) return;
-
-            if (IsUnit(hit.collider))
-            {
-                if (clickType == 1)
+                else if (middleDown)
                 {
-                    ShowHandle(hit.transform);
+                    if (_selection == null) return;
+
+                    _startRotation = _selection.rotation;
+                    _startMousePosition = Input.mousePosition;
                 }
-            }
-            else if(IsHandle(hit.collider))
-            {
-                switch (clickType)
+                else if (middleHold)
                 {
-                    case 1:
-                        _activeHandle = hit.collider as SphereCollider;
-                        _dragStartPosition = _camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, _camera.transform.position.z));
-                        break;
-                    case 0:
-                        HandleMoved(mousePosition);
-                        break;
-                    case -1:
-                        _activeHandle = null;
-                        break;
-                    default:
-                        break;
+                    if (_selection == null) return;
+
+                    _selection.rotation = _startRotation * Quaternion.AngleAxis(_startMousePosition.x - Input.mousePosition.x, Vector3.up);
                 }
             }
             else
             {
-                HideHandle();
+                if (leftDown)
+                {
+                    _activeAgent = unitRaycastHit ? unitHit.collider.GetComponentInParent<NavMeshAgent>() : null;
+                }
+                else if(rightDown)
+                {
+                    if (_activeAgent != null)
+                    {
+                        _activeAgent.SetDestination(unitHit.point);
+                    }
+                }
             }
         }
 
@@ -267,38 +249,40 @@ namespace Assets.Scripts
                    && hitCollider.GetComponent<SkinnedMeshRenderer>() != null;
         }
 
-        private static bool IsHandle(Component hitCollider)
-        {
-            return hitCollider is SphereCollider
-                   && hitCollider.GetComponent<MeshRenderer>() != null
-                   && hitCollider.GetComponent<MeshFilter>() != null;
-        }
-
         private void ShowHandle(Transform parent)
         {
-            if (_editorHandle == null)
+            if (_editorSelectionMarker == null)
             {
-                _editorHandle = Instantiate(EditorHandle);
-                _xAxisCollider = _editorHandle.transform.Find("XAxisHandle").gameObject.GetComponent<SphereCollider>();
-                _zAxisCollider = _editorHandle.transform.Find("ZAxisHandle").gameObject.GetComponent<SphereCollider>();
-                _rotationCollider = _editorHandle.transform.Find("RotationHandle").gameObject.GetComponent<SphereCollider>();
+                _editorSelectionMarker = Instantiate(EditorSelectionMarker);
             }
 
-            _editorHandle.transform.SetParent(parent, false);
-            _editorHandle.SetActive(true);
+            var markerTransform = _editorSelectionMarker.transform;
+            
+            markerTransform.SetParent(parent, false);
+
+            var parentRotation = parent.rotation;
+            parent.rotation = Quaternion.identity;
+
+            var boundingBox = parent.GetComponentInChildren<Renderer>().bounds;
+            markerTransform.position = boundingBox.center;
+            var globalScale = boundingBox.extents;
+            markerTransform.localScale = Vector3.one;
+            markerTransform.localScale = new Vector3(
+                globalScale.x / transform.lossyScale.x,
+                globalScale.y / transform.lossyScale.y,
+                globalScale.z / transform.lossyScale.z);
+
+            parent.rotation = parentRotation;
+
+            _editorSelectionMarker.SetActive(true);
         }
 
         private void HideHandle()
         {
-            _editorHandle.SetActive(false);
-        }
-
-        private void HandleMoved(Vector3 newMousePosition)
-        {
-            var draggedTo = _camera.ScreenToWorldPoint(new Vector3(newMousePosition.x, newMousePosition.y, _camera.transform.position.z));
-
-            _editorHandle.transform.position += draggedTo - _dragStartPosition;
-            _dragStartPosition = draggedTo;
+            if(_editorSelectionMarker != null)
+            {
+                _editorSelectionMarker.SetActive(false);
+            }
         }
     }
 }

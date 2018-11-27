@@ -290,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 291154495}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Units
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,7 +505,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1024852979}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Prefabs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,7 +665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1724316210}
   - component: {fileID: 1724316209}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Unit Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -685,7 +685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultSituation: {fileID: 4900000, guid: 9c97979fc86a73545a89aeca50789c8f, type: 3}
   EditorMode: 1
-  EditorHandle: {fileID: 1873318211003840, guid: d02c293e371cbd248b5f16cc3ee75486,
+  EditorSelectionMarker: {fileID: 1385561194733766, guid: 8c4fb712ab41a9e4690198bccaa09584,
     type: 2}
   Prefabs:
   - Name: Prussia
@@ -776,7 +776,7 @@ GameObject:
   - component: {fileID: 1921229073}
   - component: {fileID: 1921229075}
   - component: {fileID: 1921229074}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Map Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
