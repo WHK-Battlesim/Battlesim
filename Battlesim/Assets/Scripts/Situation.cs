@@ -14,8 +14,8 @@ namespace Assets.Scripts
         [Serializable]
         public class SerializableUnit
         {
-            public Unit.Class Class;
-            public Unit.Faction Faction;
+            public Class Class;
+            public Faction Faction;
             public Vector2 Position;
             public float Rotation;
         }
@@ -23,8 +23,8 @@ namespace Assets.Scripts
         [Serializable]
         public class UnitStats
         {
-            public Unit.Class Class;
-            public Unit.Faction Faction;
+            public Class Class;
+            public Faction Faction;
             public UnitMovementStats Movement;
             public UnitCombatStats Combat;
 
@@ -32,6 +32,9 @@ namespace Assets.Scripts
             {
                 var agent = gameObject.GetComponent<NavMeshAgent>();
                 var unit = gameObject.GetComponent<Unit>();
+
+                unit.Class = Class;
+                unit.Faction = Faction;
 
                 agent.speed = Movement.Speed;
                 agent.angularSpeed = Movement.AngularSpeed;

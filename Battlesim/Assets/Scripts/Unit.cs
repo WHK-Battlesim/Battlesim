@@ -3,10 +3,26 @@ using UnityEngine.AI;
 
 namespace Assets.Scripts
 {
+    public enum Class
+    {
+        Infantry,
+        Cavalry,
+        Artillery
+    }
+
+    public enum Faction
+    {
+        Prussia,
+        Austria
+    }
+
     [RequireComponent (typeof (NavMeshAgent))]
     [RequireComponent (typeof (Animator))]
     public class Unit : MonoBehaviour
     {
+        public Class Class;
+        public Faction Faction;
+
         /*
          * The overall count of soldiers in this unit an the unit's moral value.
          * If the count is reduced to zero, the unit is destroyed.
@@ -46,19 +62,6 @@ namespace Assets.Scripts
         private Animator _animator;
         private int _health;
         private double _moral;
-
-        public enum Class
-        {
-            Infantry,
-            Cavalry,
-            Artillery
-        }
-
-        public enum Faction
-        {
-            Prussia,
-            Austria
-        }
 
         private void Start()
         {

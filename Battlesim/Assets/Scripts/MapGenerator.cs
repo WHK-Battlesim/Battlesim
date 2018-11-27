@@ -62,7 +62,7 @@ namespace Assets.Scripts
 
         #region Public
 
-        [HideInInspector] public Dictionary<Unit.Class, NavMeshSurface> NavMeshDictionary;
+        [HideInInspector] public Dictionary<Class, NavMeshSurface> NavMeshDictionary;
 
         #endregion Public
 
@@ -291,28 +291,28 @@ namespace Assets.Scripts
             Debug.Assert(setupState != null, nameof(setupState) + " != null");
 
             NavMeshDictionary = GetComponents<NavMeshSurface>()
-                .ToDictionary(navMeshSurface => (Unit.Class)Enum.Parse(typeof(Unit.Class), NavMesh.GetSettingsNameFromID(navMeshSurface.agentTypeID)));
+                .ToDictionary(navMeshSurface => (Class)Enum.Parse(typeof(Class), NavMesh.GetSettingsNameFromID(navMeshSurface.agentTypeID)));
 
             return setupState;
         }
 
         private object _buildInfantryNavmesh(object state)
         {
-            NavMeshDictionary[Unit.Class.Infantry].BuildNavMesh();
+            NavMeshDictionary[Class.Infantry].BuildNavMesh();
 
             return state;
         }
 
         private object _buildCavalryNavmesh(object state)
         {
-            NavMeshDictionary[Unit.Class.Cavalry].BuildNavMesh();
+            NavMeshDictionary[Class.Cavalry].BuildNavMesh();
 
             return state;
         }
 
         private object _buildArtilleryNavmesh(object state)
         {
-            NavMeshDictionary[Unit.Class.Artillery].BuildNavMesh();
+            NavMeshDictionary[Class.Artillery].BuildNavMesh();
 
             return state;
         }

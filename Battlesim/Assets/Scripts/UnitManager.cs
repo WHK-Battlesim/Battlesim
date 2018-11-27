@@ -41,10 +41,10 @@ namespace Assets.Scripts
         {
             public static List<FactionPrefabs> All()
             {
-                return ((Unit.Faction[])Enum.GetValues(typeof(Unit.Faction))).Select(faction => new FactionPrefabs(faction)).ToList();
+                return ((Faction[])Enum.GetValues(typeof(Faction))).Select(faction => new FactionPrefabs(faction)).ToList();
             }
 
-            private FactionPrefabs(Unit.Faction faction)
+            private FactionPrefabs(Faction faction)
             {
                 Name = faction.ToString();
                 Prefabs = ClassPrefab.All();
@@ -60,10 +60,10 @@ namespace Assets.Scripts
         {
             public static List<ClassPrefab> All()
             {
-                return ((Unit.Class[])Enum.GetValues(typeof(Unit.Class))).Select(@class => new ClassPrefab(@class)).ToList();
+                return ((Class[])Enum.GetValues(typeof(Class))).Select(@class => new ClassPrefab(@class)).ToList();
             }
 
-            private ClassPrefab(Unit.Class @class)
+            private ClassPrefab(Class @class)
             {
                 Name = @class.ToString();
             }
@@ -119,17 +119,17 @@ namespace Assets.Scripts
 
             // create copies of prefabs to avoid changing the actual prefabs
             var prefabsWrapper = transform.Find("Prefabs");
-            var prefabDict = new Dictionary<Unit.Faction, Dictionary<Unit.Class, GameObject>>();
+            var prefabDict = new Dictionary<Faction, Dictionary<Class, GameObject>>();
             for (var faction = 0; faction < Prefabs.Count; faction++)
             {
                 var factionPrefabs = Prefabs[faction];
-                var factionDict = new Dictionary<Unit.Class, GameObject>();
+                var factionDict = new Dictionary<Class, GameObject>();
                 for (var unitClass = 0; unitClass < factionPrefabs.Prefabs.Count; unitClass++)
                 {
                     var classPrefab = factionPrefabs.Prefabs[unitClass];
-                    factionDict.Add((Unit.Class) unitClass, Instantiate(classPrefab.Prefab, prefabsWrapper));
+                    factionDict.Add((Class) unitClass, Instantiate(classPrefab.Prefab, prefabsWrapper));
                 }
-                prefabDict.Add((Unit.Faction) faction, factionDict);
+                prefabDict.Add((Faction) faction, factionDict);
             }
 
             foreach (var faction in prefabDict.Values)
@@ -154,8 +154,8 @@ namespace Assets.Scripts
             foreach (var stat in _situation.Stats)
             {
                 // TODO: read faction-specific stats
-                stat.ApplyTo(prefabDict[Unit.Faction.Prussia][stat.Class]);
-                stat.ApplyTo(prefabDict[Unit.Faction.Austria][stat.Class]);
+                stat.ApplyTo(prefabDict[Faction.Prussia][stat.Class]);
+                stat.ApplyTo(prefabDict[Faction.Austria][stat.Class]);
             }
 
             var unitsWrapper = transform.Find("Units");
