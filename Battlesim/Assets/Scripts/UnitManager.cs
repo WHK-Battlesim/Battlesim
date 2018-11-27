@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using Input = UnityEngine.Input;
 using MeshRenderer = UnityEngine.MeshRenderer;
 
@@ -175,6 +175,8 @@ namespace Assets.Scripts
 
         private void Update()
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
             var leftDown = Input.GetMouseButtonDown(0);
             var rightDown = Input.GetMouseButtonDown(1);
             var rightHold = Input.GetMouseButton(1);
