@@ -1222,6 +1222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonPrefab: {fileID: 1057428807353100, guid: 45daee70a10b1493eb57f13af1fc05cb,
     type: 2}
+  descriptionTextBox: {fileID: 172349739}
 --- !u!1 &2021950242
 GameObject:
   m_ObjectHideFlags: 0
