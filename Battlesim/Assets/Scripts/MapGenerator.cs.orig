@@ -56,7 +56,7 @@ namespace Assets.Scripts
                 MeshColor = Color.magenta
             },
         };
-
+        
         public bool EditorMode;
 
         public List<Decoration> Decorations = new List<Decoration>()
@@ -185,19 +185,23 @@ namespace Assets.Scripts
                 {
                     Name = "Building artillery navmesh",
                     ProgressValue = 10,
-                    Action = _buildArtilleryNavmesh
+<<<<<<< HEAD
+                    Action = _buildNavmesh
                 },
-                EditorMode ? null : new LoadableStep()
+                new LoadableStep()
                 {
                     Name = "Adding decoration",
                     ProgressValue = 2,
                     Action = _addDecoration
+=======
+                    Action = _buildArtilleryNavmesh
                 },
                 !EditorMode ? null : new LoadableStep()
                 {
                     Name = "Cleaning up",
                     ProgressValue = 1,
                     Action = _removeNavMesh
+>>>>>>> master
                 }
             }.Where(s => s != null).ToList();
             EnableType = LoadingDirector.EnableType.WholeGameObject;
@@ -325,37 +329,7 @@ namespace Assets.Scripts
             return setupState;
         }
 
-        private object _buildInfantryNavmesh(object state)
-        {
-            NavMeshDictionary[Class.Infantry].BuildNavMesh();
-
-            return state;
-        }
-
-        private object _buildCavalryNavmesh(object state)
-        {
-            NavMeshDictionary[Class.Cavalry].BuildNavMesh();
-
-            return state;
-        }
-
-        private object _buildArtilleryNavmesh(object state)
-        {
-            NavMeshDictionary[Class.Artillery].BuildNavMesh();
-
-            return state;
-        }
-
-        private object _removeNavMesh(object state)
-        {
-            foreach (var navMeshSurface in GetComponents<NavMeshSurface>())
-            {
-                Destroy(navMeshSurface);
-            }
-
-            return state;
-        }
-
+<<<<<<< HEAD
         private object _addDecoration(object state)
         {
             var decoWrapper = new GameObject("Decoration").transform;
@@ -386,7 +360,36 @@ namespace Assets.Scripts
             var euler = instance.transform.localRotation.eulerAngles;
             euler.y = random.Next(0, 360);
             instance.transform.localRotation = Quaternion.Euler(euler);
-            
+=======
+        private object _buildInfantryNavmesh(object state)
+        {
+            NavMeshDictionary[Class.Infantry].BuildNavMesh();
+
+            return state;
+        }
+
+        private object _buildCavalryNavmesh(object state)
+        {
+            NavMeshDictionary[Class.Cavalry].BuildNavMesh();
+
+            return state;
+        }
+
+        private object _buildArtilleryNavmesh(object state)
+        {
+            NavMeshDictionary[Class.Artillery].BuildNavMesh();
+
+            return state;
+        }
+
+        private object _removeNavMesh(object state)
+        {
+            foreach (var navMeshSurface in GetComponents<NavMeshSurface>())
+            {
+                Destroy(navMeshSurface);
+            }
+>>>>>>> master
+
             return state;
         }
 
@@ -409,27 +412,24 @@ namespace Assets.Scripts
             return _heightMap.GetPixelBilinear(texturePosX, texturePosY).r * 255 * _extents.Scale.y * Scale.y + Offset.y;
         }
 
+<<<<<<< HEAD
         private Vector3 GetPostionForTextureCoord(float x, float z)
         {
-            return Offset +
-                   Vector3.Scale(
-                       new Vector3(
-                           x,
-                           _heightMap.GetPixelBilinear(x, z).r * 255,
-                           z),
-                       Vector3.Scale(_extents.Scale, Scale));
-                           z),
-                       Scale);
-        }
-
+=======
         public Vector3 RealWorldToUnity(Vector2 position)
         {
             var x = (float)(position.x - _extents.MinX);
             var z = (float)(position.y - _extents.MinY);
+>>>>>>> master
             return Offset +
                    Vector3.Scale(
                        new Vector3(
                            x,
+<<<<<<< HEAD
+                           _heightMap.GetPixelBilinear(x, z).r * 255,
+                           z),
+                       Vector3.Scale(_extents.Scale, Scale));
+=======
                            _heightMap.GetPixelBilinear(x / _extents.Scale.x, z / _extents.Scale.z).r * 255,
                            z),
                        Scale);
@@ -438,6 +438,7 @@ namespace Assets.Scripts
         public Vector2 UnityToRealWorld(Vector3 position)
         {
             return new Vector2((float) ((position.x - Offset.x) / Scale.x + _extents.MinX), (float) ((position.z - Offset.z) / Scale.z + _extents.MinY));
+>>>>>>> master
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Editor
 {
     public class UnitPrefabCreator : EditorWindow
     {
