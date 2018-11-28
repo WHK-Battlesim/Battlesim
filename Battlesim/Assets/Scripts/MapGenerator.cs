@@ -21,6 +21,7 @@ namespace Assets.Scripts
 
         public Texture2D DefaultHeightMap;
         public Texture2D DefaultFeatureMap;
+        public Texture2D DefaultDecorationMap;
         public TextAsset DefaultExtents;
         public Material Material;
 
@@ -56,12 +57,32 @@ namespace Assets.Scripts
             },
         };
 
+        public List<Decoration> Decorations = new List<Decoration>()
+        {
+            new Decoration()
+            {
+                Name = "House",
+                DecorationMapColor = Color.red
+            },
+            new Decoration()
+            {
+                Name = "Tree",
+                DecorationMapColor = Color.green
+            },
+            new Decoration()
+            {
+                Name = "None",
+                DecorationMapColor = Color.white
+            }
+        };
+
         #endregion Inspector
 
         #region Private
         
         private Texture2D _heightMap;
         private Texture2D _featureMap;
+        private Texture2D _decorationMap;
         private Extents _extents;
 
         #endregion Private
@@ -91,6 +112,15 @@ namespace Assets.Scripts
             public string Name;
             public Color FeatureMapColor;
             public Color MeshColor;
+        }
+
+        [Serializable]
+        public class Decoration
+        {
+            [HideInInspector]
+            public string Name;
+            public Color DecorationMapColor;
+            public List<GameObject> Prefabs;
         }
 
         #endregion Helper Classes
@@ -130,6 +160,12 @@ namespace Assets.Scripts
                     Name = "Building navmesh",
                     ProgressValue = 10,
                     Action = _buildNavmesh
+                },
+                new LoadableStep()
+                {
+                    Name = "Adding decoration",
+                    ProgressValue = 2,
+                    Action = _addDecoration
                 }
             };
             EnableType = LoadingDirector.EnableType.WholeGameObject;
@@ -158,6 +194,7 @@ namespace Assets.Scripts
             _heightMap = DefaultHeightMap;
             _featureMap = DefaultFeatureMap;
             _extents = DefaultExtents;
+            _decorationMap = DefaultDecorationMap;
 
             setupState.Terrain = new GameObject("Terrain");
             setupState.Terrain.transform.SetParent(transform);
@@ -205,15 +242,7 @@ namespace Assets.Scripts
             setupState.Mesh.SetVertices(
                 setupState.TriangulatedMesh
                     .Vertices
-                    .Select(
-                        vertex =>
-                            Offset +
-                            Vector3.Scale(
-                                new Vector3(
-                                    (float)vertex.X,
-                                    _heightMap.GetPixelBilinear((float)vertex.X, (float)vertex.Y).r * 255,
-                                    (float)vertex.Y),
-                                Vector3.Scale(_extents.Scale, Scale)))
+                    .Select(vertex => GetPostionForTextureCoord((float) vertex.x, (float) vertex.y))
                     .ToList());
 
             var triangleGroupVertices =
@@ -263,6 +292,40 @@ namespace Assets.Scripts
             return setupState;
         }
 
+        private object _addDecoration(object state)
+        {
+            var decoWrapper = new GameObject("Decoration").transform;
+            decoWrapper.SetParent(transform);
+
+            // TODO: replace this demo code
+
+            // generate some positions in range 0-1 (see _randomizeTerrain)
+            var random = new System.Random();
+            var pos = new Vector2(0.5f, 0.5f); // use random.NextDouble() - yeah, you'll have to cast
+            // read the decoration map and find the correct decoration
+            var color = _decorationMap.GetPixel(
+                (int)Math.Round(_decorationMap.width * pos.x),
+                (int)Math.Round(_decorationMap.width * pos.y));
+            // get the index first, since "pos % count" allows to map invalid values to last entry
+            var index = Decorations.FindIndex(decoration => decoration.DecorationMapColor == color) % Decorations.Count;
+            index = 1; // for now make sure to place a tree
+            // return if necessary - last index maps to no decoration
+            // if(index >= Decorations.Count - 1) contiue;
+            // get the available prefabs
+            var prefabs = Decorations[index].Prefabs;
+            // instantiate a random one
+            var instance = Instantiate(
+                prefabs[random.Next(0, prefabs.Count)],
+                decoWrapper);
+            // the object already contains a rotation, so we can't just pass one to instantiate
+            instance.transform.position = GetPostionForTextureCoord(pos.x, pos.y);
+            var euler = instance.transform.localRotation.eulerAngles;
+            euler.y = random.Next(0, 360);
+            instance.transform.localRotation = Quaternion.Euler(euler);
+
+            return state;
+        }
+
         #endregion Start
 
         private int GetFeatureId(Triangle triangle)
@@ -280,6 +343,17 @@ namespace Assets.Scripts
             var texturePosX = (x - Offset.x) / Scale.x / _extents.Scale.x;
             var texturePosY = (z - Offset.z) / Scale.z / _extents.Scale.z;
             return _heightMap.GetPixelBilinear(texturePosX, texturePosY).r * 255 * _extents.Scale.y * Scale.y + Offset.y;
+        }
+
+        private Vector3 GetPostionForTextureCoord(float x, float z)
+        {
+            return Offset +
+                   Vector3.Scale(
+                       new Vector3(
+                           x,
+                           _heightMap.GetPixelBilinear(x, z).r * 255,
+                           z),
+                       Vector3.Scale(_extents.Scale, Scale));
         }
     }
 }
