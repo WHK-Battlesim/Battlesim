@@ -1,100 +1,152 @@
 {
-    "Units":
-    [
+    "Units": [
+        {
+            "Class": 1,
+            "Faction": 0,
+            "Position": {
+                "x": 760000.0,
+                "y": 5710000.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 760500.0,
+                "y": 5710000.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 2,
+            "Faction": 0,
+            "Position": {
+                "x": 761000.0,
+                "y": 5710000.0
+            },
+            "Rotation": 90.0
+        }
+    ],
+    "Stats": [
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Movement": {
+                "Speed": 3.0,
+                "AngularSpeed": 140.0,
+                "Acceleration": 10.0
+            },
+            "Combat": {
+                "Count": 112,
+                "Morale": 500.0,
+                "Health": 100.0,
+                "Damage": 10.0,
+                "Accuracy": 10.0,
+                "Range": 2.0,
+                "MoraleDamage": 1.0,
+                "AreaDamage": 1.0,
+                "Spacing": 5.0
+            }
+        },
+        {
+            "Class": 1,
+            "Faction": 0,
+            "Movement": {
+                "Speed": 5.0,
+                "AngularSpeed": 50.0,
+                "Acceleration": 15.0
+            },
+            "Combat": {
+                "Count": 132,
+                "Morale": 500.0,
+                "Health": 100.0,
+                "Damage": 50.0,
+                "Accuracy": 100.0,
+                "Range": 0.10000000149011612,
+                "MoraleDamage": 3.0,
+                "AreaDamage": 1.0,
+                "Spacing": 7.0
+            }
+        },
+        {
+            "Class": 2,
+            "Faction": 0,
+            "Movement": {
+                "Speed": 2.0,
+                "AngularSpeed": 140.0,
+                "Acceleration": 5.0
+            },
+            "Combat": {
+                "Count": 1,
+                "Morale": 500.0,
+                "Health": 100.0,
+                "Damage": 150.0,
+                "Accuracy": 50.0,
+                "Range": 4.0,
+                "MoraleDamage": 5.0,
+                "AreaDamage": 10.0,
+                "Spacing": 15.0
+            }
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Movement": {
+                "Speed": 3.0,
+                "AngularSpeed": 140.0,
+                "Acceleration": 10.0
+            },
+            "Combat": {
+                "Count": 112,
+                "Morale": 500.0,
+                "Health": 100.0,
+                "Damage": 10.0,
+                "Accuracy": 10.0,
+                "Range": 2.0,
+                "MoraleDamage": 1.0,
+                "AreaDamage": 1.0,
+                "Spacing": 5.0
+            }
+        },
         {
             "Class": 1,
             "Faction": 1,
-            "Position":
-            {
-                "x": 760000,
-                "y": 5710000
-            },
-            "Rotation": 0
-        },
-        {
-            "Class": 0,
-            "Faction": 0,
-            "Position":
-            {
-                "x": 760500,
-                "y": 5710000
-            },
-            "Rotation": 0
-        },
-        {
-            "Class": 2,
-            "Faction": 0,
-            "Position":
-            {
-                "x": 761000,
-                "y": 5710000
-            },
-            "Rotation": 90
-        }
-    ],
-    "Stats":
-    [
-        {
-            "Class": 0,
-            "Faction": 0,
             "Movement": {
-                "Speed": 3,
-                "AngularSpeed": 140,
-                "Acceleration": 10
+                "Speed": 5.0,
+                "AngularSpeed": 50.0,
+                "Acceleration": 15.0
             },
-            "Combat":
-            {
-                "Count": 112,
-                "Morale": 500,
-                "Health": 100,
-                "Damage": 10,
-                "Accuracy": 10,
-                "Range": 2,
-                "MoraleDamage": 1,
-                "AreaDamage": 1,
-                "Spacing": 5
-            }
-        },
-        {
-            "Class": 1,
-            "Faction": 0,
-            "Movement": {
-                "Speed": 5,
-                "AngularSpeed": 50,
-                "Acceleration": 15
-            },
-            "Combat":
-            {
+            "Combat": {
                 "Count": 132,
-                "Morale": 500,
-                "Health": 100,
-                "Damage": 50,
-                "Accuracy": 100,
-                "Range": 0.1,
-                "MoraleDamage": 3,
-                "AreaDamage": 1,
-                "Spacing": 7
+                "Morale": 500.0,
+                "Health": 100.0,
+                "Damage": 50.0,
+                "Accuracy": 100.0,
+                "Range": 0.10000000149011612,
+                "MoraleDamage": 3.0,
+                "AreaDamage": 1.0,
+                "Spacing": 7.0
             }
         },
         {
             "Class": 2,
-            "Faction": 0,
+            "Faction": 1,
             "Movement": {
-                "Speed": 2,
-                "AngularSpeed": 140,
-                "Acceleration": 5
+                "Speed": 2.0,
+                "AngularSpeed": 140.0,
+                "Acceleration": 5.0
             },
-            "Combat":
-            {
+            "Combat": {
                 "Count": 1,
-                "Morale": 500,
-                "Health": 100,
-                "Damage": 150,
-                "Accuracy": 50,
-                "Range": 4,
-                "MoraleDamage": 5,
-                "AreaDamage": 10,
-                "Spacing": 15
+                "Morale": 500.0,
+                "Health": 100.0,
+                "Damage": 150.0,
+                "Accuracy": 50.0,
+                "Range": 4.0,
+                "MoraleDamage": 5.0,
+                "AreaDamage": 10.0,
+                "Spacing": 15.0
             }
         }
     ]

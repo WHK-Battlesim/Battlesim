@@ -158,9 +158,8 @@ namespace Assets.Scripts
 
             foreach (var stat in _situation.Stats)
             {
-                // TODO: read faction-specific stats
-                stat.ApplyTo(_prefabDict[Faction.Prussia][stat.Class]);
-                stat.ApplyTo(_prefabDict[Faction.Austria][stat.Class]);
+                stat.ApplyTo(_prefabDict[stat.Faction][stat.Class]);
+                stat.ApplyTo(_prefabDict[stat.Faction][stat.Class]);
             }
 
             _unitWrapper = transform.Find("Units");
