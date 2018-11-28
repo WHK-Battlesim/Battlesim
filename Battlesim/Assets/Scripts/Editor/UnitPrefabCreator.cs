@@ -11,7 +11,8 @@ namespace Assets.Scripts.Editor
         {
             Unit,
             House,
-            Tree
+            Tree,
+            Stone
         }
 
         private GameObject _selection;
@@ -53,6 +54,7 @@ namespace Assets.Scripts.Editor
                     break;
                 case ModelType.House:
                 case ModelType.Tree:
+                case ModelType.Stone:
                     _checkStaticModel();
                     break;
                 default:

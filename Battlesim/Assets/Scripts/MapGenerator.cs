@@ -73,6 +73,11 @@ namespace Assets.Scripts
             },
             new Decoration()
             {
+                Name = "Stone",
+                DecorationMapColor = Color.black
+            },
+            new Decoration()
+            {
                 Name = "None",
                 DecorationMapColor = Color.white
             }
@@ -128,6 +133,12 @@ namespace Assets.Scripts
             [HideInInspector]
             public string Name;
             public Color DecorationMapColor;
+            public float MinScale = 1.0f;
+            public float MaxScale = 1.0f;
+            public int RotationSteps = 1;
+            public int Amount = 0;
+            [HideInInspector]
+            public int AlreadyPlaced = 0;
             public List<GameObject> Prefabs;
         }
 
@@ -361,31 +372,45 @@ namespace Assets.Scripts
             var decoWrapper = new GameObject("Decoration").transform;
             decoWrapper.SetParent(transform);
 
-            // TODO: replace this demo code
-
-            // generate some positions in range 0-1 (see _randomizeTerrain)
             var random = new System.Random();
-            var pos = new Vector2(0.5f, 0.5f); // use random.NextDouble() - yeah, you'll have to cast
-            // read the decoration map and find the correct decoration
-            var color = _decorationMap.GetPixel(
-                (int)Math.Round(_decorationMap.width * pos.x),
-                (int)Math.Round(_decorationMap.width * pos.y));
-            // get the index first, since "pos % count" allows to map invalid values to last entry
-            var index = Decorations.FindIndex(decoration => decoration.DecorationMapColor == color) % Decorations.Count;
-            index = 1; // for now make sure to place a tree
-            // return if necessary - last index maps to no decoration
-            // if(index >= Decorations.Count - 1) contiue;
-            // get the available prefabs
-            var prefabs = Decorations[index].Prefabs;
-            // instantiate a random one
-            var instance = Instantiate(
-                prefabs[random.Next(0, prefabs.Count)],
-                decoWrapper);
-            // the object already contains a rotation, so we can't just pass one to instantiate
-            instance.transform.position = GetPostionForTextureCoord(pos.x, pos.y);
-            var euler = instance.transform.localRotation.eulerAngles;
-            euler.y = random.Next(0, 360);
-            instance.transform.localRotation = Quaternion.Euler(euler);
+            var done = false;
+
+            while(!done)
+            {
+                // generate some positions in range 0-1 (see _randomizeTerrain)
+                var pos = new Vector2((float)random.NextDouble(), (float)random.NextDouble()); // use random.NextDouble() - yeah, you'll have to cast
+                                                                                               // read the decoration map and find the correct decoration
+                var color = _decorationMap.GetPixel(
+                    (int)Math.Round(_decorationMap.width * pos.x),
+                    (int)Math.Round(_decorationMap.height * pos.y));
+                // get the index first, since "pos % count" allows to map invalid values to last entry
+                var index = Decorations.FindIndex(decoration => decoration.DecorationMapColor == color) % Decorations.Count;
+                var deco = Decorations[index];
+                if (deco.AlreadyPlaced >= deco.Amount) continue;
+
+                var prefabs = deco.Prefabs;
+                if (prefabs.Count < 1) continue;
+
+                // instantiate a random one
+                var instance = Instantiate(
+                    prefabs[random.Next(0, prefabs.Count)],
+                    decoWrapper);
+                // the object already contains a rotation, so we can't just pass one to instantiate
+                instance.transform.position = GetPostionForTextureCoord(pos.x, pos.y);
+                var euler = instance.transform.localRotation.eulerAngles;
+                var yRotation = 
+                euler.y = random.Next(0, deco.RotationSteps-1) * 360f / deco.RotationSteps;
+                instance.transform.localRotation = Quaternion.Euler(euler);
+                instance.transform.localScale *= deco.MinScale + (float)random.NextDouble() * (deco.MaxScale - deco.MinScale);
+                deco.AlreadyPlaced++;
+
+                //i++;
+                done = true;
+                foreach(var d in Decorations)
+                {
+                    done = done && d.AlreadyPlaced >= d.Amount;
+                }
+            }
             
             return state;
         }
