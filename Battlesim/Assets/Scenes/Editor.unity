@@ -3443,7 +3443,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 94c29f67da4562f43ba26d7bd84cb2d8, type: 2}
   Offset: {x: 0, y: 0, z: 0}
   Scale: {x: 0.01, y: 0.1, z: 0.01}
-  NumberOfVertices: 63900
+  NumberOfVertices: 60000
   TerrainFeatures:
   - Name: Land
     FeatureMapColor: {r: 1, g: 1, b: 1, a: 1}
