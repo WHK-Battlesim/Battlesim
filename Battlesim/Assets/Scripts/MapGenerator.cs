@@ -27,6 +27,7 @@ namespace Assets.Scripts
         public Vector3 Offset = Vector3.zero;
         public Vector3 Scale = new Vector3(0.01f, 0.1f, 0.01f);
         public int NumberOfVertices = 50000;
+        public Vector2Int BucketCount = new Vector2Int(20, 20);
 
         public List<TerrainFeature> TerrainFeatures = new List<TerrainFeature>()
         {
@@ -71,6 +72,7 @@ namespace Assets.Scripts
         private Texture2D _heightMap;
         private Texture2D _featureMap;
         private Extents _extents;
+        private List<List<Bucket>> _buckets;
 
         #endregion Private
         
@@ -327,6 +329,42 @@ namespace Assets.Scripts
             return state;
         }
 
+        private object _setUpBuckets(object state)
+        {
+            var size = Vector3.Scale(Scale, _extents.Scale);
+            var xSize = size.x / BucketCount.x;
+            var ySize = size.z / BucketCount.y;
+            var bucketSize = new Vector2(xSize, ySize);
+
+            _buckets = new List<List<Bucket>>();
+            for (var x = 0; x < BucketCount.x; x++)
+            {
+                _buckets.Add(new List<Bucket>());
+                for (var y = 0; y < BucketCount.y; y++)
+                {
+                    _buckets[x].Add(new Bucket(new Vector2(xSize * x, ySize * y), bucketSize));
+                }
+            }
+
+            for (var x = 0; x < BucketCount.x; x++)
+            {
+                for (var y = 0; y < BucketCount.y; y++)
+                {
+                    var xLowerEdge = x == 0;
+                    var xUpperEdge = x == BucketCount.x - 1;
+                    var yLowerEdge = y == 0;
+                    var yUpperEdge = y == BucketCount.y - 1;
+
+                    _buckets[x][y].SetAdjacentBuckets(
+                        xLowerEdge || yLowerEdge ? null : _buckets[x-1][y-1], xLowerEdge ? null : _buckets[x-1][y], xLowerEdge || yUpperEdge ? null : _buckets[x-1][y+1],
+                                      yLowerEdge ? null : _buckets[x  ][y-1],                                                     yUpperEdge ? null : _buckets[x  ][y+1],
+                        xUpperEdge || yLowerEdge ? null : _buckets[x+1][y-1], xUpperEdge ? null : _buckets[x+1][y], xUpperEdge || yUpperEdge ? null : _buckets[x+1][y+1]);
+                }
+            }
+
+            return state;
+        }
+
         #endregion Start
 
         private int GetFeatureId(Triangle triangle)
@@ -362,6 +400,15 @@ namespace Assets.Scripts
         public Vector2 UnityToRealWorld(Vector3 position)
         {
             return new Vector2((float) ((position.x - Offset.x) / Scale.x + _extents.MinX), (float) ((position.z - Offset.z) / Scale.z + _extents.MinY));
+        }
+
+        public Bucket GetBucket(Vector3 position)
+        {
+            var size = Vector3.Scale(Scale, _extents.Scale);
+            var x = Mathf.RoundToInt(Mathf.Clamp((position.x - Offset.x) * BucketCount.x / size.x, 0, BucketCount.x - 1));
+            var y = Mathf.RoundToInt(Mathf.Clamp((position.z - Offset.z) * BucketCount.y / size.z, 0, BucketCount.y - 1));
+
+            return _buckets[x][y];
         }
     }
 }

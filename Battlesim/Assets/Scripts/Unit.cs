@@ -56,6 +56,9 @@ namespace Assets.Scripts
         public double AreaDamage;
         public double Spacing;
 
+        [HideInInspector] public MapGenerator MapGenerator;
+        [HideInInspector] public Bucket Bucket;
+
         private NavMeshAgent _agent;
         private Animator _animator;
         private int _health;
@@ -85,8 +88,20 @@ namespace Assets.Scripts
 
         private void OnAnimatorMove()
         {
-            if (_agent != null)
-                transform.position = _agent.nextPosition;
+            if (_agent == null) return;
+
+            transform.position = _agent.nextPosition;
+            if (!Bucket.Contains(transform.position))
+            {
+                UpdateBucket();
+            }
+        }
+
+        private void UpdateBucket()
+        {
+            Bucket.Leave(this);
+            Bucket = MapGenerator.GetBucket(transform.position);
+            Bucket.Enter(this);
         }
     }
 }

@@ -165,11 +165,17 @@ namespace Assets.Scripts
             _unitWrapper = transform.Find("Units");
             foreach (var unit in _situation.Units)
             {
-                Instantiate(
+                var instance = Instantiate(
                     _prefabDict[unit.Faction][unit.Class],
                     _mapGenerator.RealWorldToUnity(unit.Position),
                     Quaternion.AngleAxis(unit.Rotation, Vector3.up),
                     _unitWrapper);
+
+                if (EditorMode) continue;
+
+                var unitInstance = instance.GetComponent<Unit>();
+                unitInstance.Bucket = _mapGenerator.GetBucket(instance.transform.position);
+                unitInstance.MapGenerator = _mapGenerator;
             }
 
             return state;
