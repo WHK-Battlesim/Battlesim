@@ -55,8 +55,16 @@ namespace Assets.Scripts
                 MeshColor = Color.magenta
             },
         };
+        
+        public bool EditorMode;
 
         #endregion Inspector
+
+        #region Public
+
+        [HideInInspector] public Dictionary<Class, NavMeshSurface> NavMeshDictionary;
+
+        #endregion Public
 
         #region Private
         
@@ -125,13 +133,37 @@ namespace Assets.Scripts
                     ProgressValue = 2,
                     Action = _buildTerrainMesh
                 },
-                new LoadableStep()
+                EditorMode ? null : new LoadableStep()
                 {
-                    Name = "Building navmesh",
+                    Name = "Preparing navmeshes",
+                    ProgressValue = 1,
+                    Action = _prepareNavmeshes
+                },
+                EditorMode ? null : new LoadableStep()
+                {
+                    Name = "Building infantry navmesh",
                     ProgressValue = 10,
-                    Action = _buildNavmesh
+                    Action = _buildInfantryNavmesh
+                },
+                EditorMode ? null : new LoadableStep()
+                {
+                    Name = "Building cavalry navmesh",
+                    ProgressValue = 10,
+                    Action = _buildCavalryNavmesh
+                },
+                EditorMode ? null : new LoadableStep()
+                {
+                    Name = "Building artillery navmesh",
+                    ProgressValue = 10,
+                    Action = _buildArtilleryNavmesh
+                },
+                !EditorMode ? null : new LoadableStep()
+                {
+                    Name = "Cleaning up",
+                    ProgressValue = 1,
+                    Action = _removeNavMesh
                 }
-            };
+            }.Where(s => s != null).ToList();
             EnableType = LoadingDirector.EnableType.WholeGameObject;
             Weight = 100f;
             MaxProgress = Steps.Sum(s => s.ProgressValue);
@@ -161,6 +193,7 @@ namespace Assets.Scripts
 
             setupState.Terrain = new GameObject("Terrain");
             setupState.Terrain.transform.SetParent(transform);
+            setupState.Terrain.layer = LayerMask.NameToLayer("Terrain");
 
             var meshFilter = setupState.Terrain.AddComponent<MeshFilter>();
             setupState.MeshRenderer = setupState.Terrain.AddComponent<MeshRenderer>();
@@ -246,21 +279,52 @@ namespace Assets.Scripts
             setupState.MeshRenderer.materials = materials;
             setupState.Mesh.RecalculateNormals();
 
+            var meshCollider = setupState.Terrain.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = setupState.Mesh;
+
             return setupState;
         }
 
-        private object _buildNavmesh(object state)
+        private object _prepareNavmeshes(object state)
         {
             var setupState = state as SetupState;
             Debug.Assert(setupState != null, nameof(setupState) + " != null");
 
-            var meshCollider = setupState.Terrain.AddComponent<MeshCollider>();
-            meshCollider.sharedMesh = setupState.Mesh;
-            
-            var navMesh = GetComponent<NavMeshSurface>();
-            navMesh.BuildNavMesh();
+            NavMeshDictionary = GetComponents<NavMeshSurface>()
+                .ToDictionary(navMeshSurface => (Class)Enum.Parse(typeof(Class), NavMesh.GetSettingsNameFromID(navMeshSurface.agentTypeID)));
 
             return setupState;
+        }
+
+        private object _buildInfantryNavmesh(object state)
+        {
+            NavMeshDictionary[Class.Infantry].BuildNavMesh();
+
+            return state;
+        }
+
+        private object _buildCavalryNavmesh(object state)
+        {
+            NavMeshDictionary[Class.Cavalry].BuildNavMesh();
+
+            return state;
+        }
+
+        private object _buildArtilleryNavmesh(object state)
+        {
+            NavMeshDictionary[Class.Artillery].BuildNavMesh();
+
+            return state;
+        }
+
+        private object _removeNavMesh(object state)
+        {
+            foreach (var navMeshSurface in GetComponents<NavMeshSurface>())
+            {
+                Destroy(navMeshSurface);
+            }
+
+            return state;
         }
 
         #endregion Start
@@ -280,6 +344,24 @@ namespace Assets.Scripts
             var texturePosX = (x - Offset.x) / Scale.x / _extents.Scale.x;
             var texturePosY = (z - Offset.z) / Scale.z / _extents.Scale.z;
             return _heightMap.GetPixelBilinear(texturePosX, texturePosY).r * 255 * _extents.Scale.y * Scale.y + Offset.y;
+        }
+
+        public Vector3 RealWorldToUnity(Vector2 position)
+        {
+            var x = (float)(position.x - _extents.MinX);
+            var z = (float)(position.y - _extents.MinY);
+            return Offset +
+                   Vector3.Scale(
+                       new Vector3(
+                           x,
+                           _heightMap.GetPixelBilinear(x / _extents.Scale.x, z / _extents.Scale.z).r * 255,
+                           z),
+                       Scale);
+        }
+
+        public Vector2 UnityToRealWorld(Vector3 position)
+        {
+            return new Vector2((float) ((position.x - Offset.x) / Scale.x + _extents.MinX), (float) ((position.z - Offset.z) / Scale.z + _extents.MinY));
         }
     }
 }
