@@ -254,7 +254,7 @@ namespace Assets.Scripts
                 {
                     if (_activeAgent != null)
                     {
-                        _activeAgent.SetDestination(unitHit.point);
+                        _activeAgent.SetDestination(terrainHit.point);
                     }
                 }
             }
