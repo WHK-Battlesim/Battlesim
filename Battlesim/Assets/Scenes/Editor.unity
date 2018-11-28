@@ -3439,6 +3439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultHeightMap: {fileID: 2800000, guid: aaa1cbac2feab77488859b6a6d42ee49, type: 3}
   DefaultFeatureMap: {fileID: 2800000, guid: b01f0ed691d70ab48978795294395276, type: 3}
+  DefaultDecorationMap: {fileID: 2800000, guid: 18582a3d99bb8a748bff9b755cae7113,
+    type: 3}
   DefaultExtents: {fileID: 4900000, guid: a14455d08e2b5b14181101c61a8e51f5, type: 3}
   Material: {fileID: 2100000, guid: 94c29f67da4562f43ba26d7bd84cb2d8, type: 2}
   Offset: {x: 0, y: 0, z: 0}
@@ -3458,6 +3460,19 @@ MonoBehaviour:
     FeatureMapColor: {r: 1, g: 0, b: 1, a: 1}
     MeshColor: {r: 1, g: 0, b: 1, a: 1}
   EditorMode: 1
+  Decorations:
+  - Name: House
+    DecorationMapColor: {r: 1, g: 0, b: 0, a: 1}
+    Prefabs:
+    - {fileID: 1630878369219534, guid: a37c48f1b9113cd49b6d69e5bc6ba15a, type: 2}
+  - Name: Tree
+    DecorationMapColor: {r: 0, g: 1, b: 0, a: 1}
+    Prefabs:
+    - {fileID: 1026642648629026, guid: 82d9bb5efa1789247a799063863a3649, type: 2}
+    - {fileID: 1043823112631302, guid: f517140b43697af44be522238ea51541, type: 2}
+  - Name: None
+    DecorationMapColor: {r: 1, g: 1, b: 1, a: 1}
+    Prefabs: []
 --- !u!4 &1921229072
 Transform:
   m_ObjectHideFlags: 0

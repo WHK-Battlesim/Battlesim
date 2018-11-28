@@ -19,6 +19,8 @@ namespace Assets.Scripts
     {
         #region Inspector
 
+        public bool EditorMode;
+
         public Texture2D DefaultHeightMap;
         public Texture2D DefaultFeatureMap;
         public Texture2D DefaultDecorationMap;
@@ -56,8 +58,6 @@ namespace Assets.Scripts
                 MeshColor = Color.magenta
             },
         };
-
-        public bool EditorMode;
 
         public List<Decoration> Decorations = new List<Decoration>()
         {
@@ -187,7 +187,7 @@ namespace Assets.Scripts
                     ProgressValue = 10,
                     Action = _buildArtilleryNavmesh
                 },
-                EditorMode ? null : new LoadableStep()
+                new LoadableStep()
                 {
                     Name = "Adding decoration",
                     ProgressValue = 2,
@@ -418,8 +418,6 @@ namespace Assets.Scripts
                            _heightMap.GetPixelBilinear(x, z).r * 255,
                            z),
                        Vector3.Scale(_extents.Scale, Scale));
-                           z),
-                       Scale);
         }
 
         public Vector3 RealWorldToUnity(Vector2 position)
