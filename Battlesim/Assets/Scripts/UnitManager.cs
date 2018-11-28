@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -26,11 +28,14 @@ namespace Assets.Scripts
         private MapGenerator _mapGenerator;
         private Camera _camera;
         private Situation _situation;
+        private Dictionary<Faction, Dictionary<Class, GameObject>> _prefabDict;
+        private Transform _unitWrapper;
         
         private Transform _selection;
         private GameObject _editorSelectionMarker;
         private Quaternion _startRotation;
         private Vector2 _startMousePosition;
+        private GameObject _activeUnitPrefab;
 
         #endregion Private
 
@@ -118,8 +123,8 @@ namespace Assets.Scripts
             var navMeshBounds = _mapGenerator.GetComponentInChildren<MeshRenderer>().bounds;
 
             // create copies of prefabs to avoid changing the actual prefabs
-            var prefabsWrapper = transform.Find("Prefabs");
-            var prefabDict = new Dictionary<Faction, Dictionary<Class, GameObject>>();
+            var prefabWrapepr = transform.Find("Prefabs");
+            _prefabDict = new Dictionary<Faction, Dictionary<Class, GameObject>>();
             for (var faction = 0; faction < Prefabs.Count; faction++)
             {
                 var factionPrefabs = Prefabs[faction];
@@ -127,12 +132,12 @@ namespace Assets.Scripts
                 for (var unitClass = 0; unitClass < factionPrefabs.Prefabs.Count; unitClass++)
                 {
                     var classPrefab = factionPrefabs.Prefabs[unitClass];
-                    factionDict.Add((Class) unitClass, Instantiate(classPrefab.Prefab, prefabsWrapper));
+                    factionDict.Add((Class) unitClass, Instantiate(classPrefab.Prefab, prefabWrapepr));
                 }
-                prefabDict.Add((Faction) faction, factionDict);
+                _prefabDict.Add((Faction) faction, factionDict);
             }
 
-            foreach (var faction in prefabDict.Values)
+            foreach (var faction in _prefabDict.Values)
             {
                 foreach (var unitClass in faction)
                 {
@@ -143,10 +148,10 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        // remove all unnecessary 
-                        Destroy(unitClass.Value.GetComponent<Unit>());
+                        // remove all unnecessary
+                        unitClass.Value.GetComponent<Unit>().enabled = false;
+                        unitClass.Value.GetComponent<NavMeshAgent>().enabled = false;
                         Destroy(unitClass.Value.GetComponent<Animator>());
-                        Destroy(unitClass.Value.GetComponent<NavMeshAgent>());
                     }
                 }
             }
@@ -154,18 +159,18 @@ namespace Assets.Scripts
             foreach (var stat in _situation.Stats)
             {
                 // TODO: read faction-specific stats
-                stat.ApplyTo(prefabDict[Faction.Prussia][stat.Class]);
-                stat.ApplyTo(prefabDict[Faction.Austria][stat.Class]);
+                stat.ApplyTo(_prefabDict[Faction.Prussia][stat.Class]);
+                stat.ApplyTo(_prefabDict[Faction.Austria][stat.Class]);
             }
 
-            var unitsWrapper = transform.Find("Units");
+            _unitWrapper = transform.Find("Units");
             foreach (var unit in _situation.Units)
             {
                 Instantiate(
-                    prefabDict[unit.Faction][unit.Class],
+                    _prefabDict[unit.Faction][unit.Class],
                     _mapGenerator.RealWorldToUnity(unit.Position),
                     Quaternion.AngleAxis(unit.Rotation, Vector3.up),
-                    unitsWrapper);
+                    _unitWrapper);
             }
 
             return state;
@@ -175,7 +180,7 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+            if (EditorMode && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
 
             var leftDown = Input.GetMouseButtonDown(0);
             var rightDown = Input.GetMouseButtonDown(1);
@@ -200,10 +205,14 @@ namespace Assets.Scripts
                         _selection = unitHit.transform.parent;
                         ShowHandle(_selection);
                     }
-                    else
+                    else if(terrainRaycastHit)
                     {
-                        _selection = null;
-                        HideHandle();
+                        _selection = Instantiate(
+                            _activeUnitPrefab,
+                            terrainHit.point,
+                            Quaternion.identity,
+                            _unitWrapper).transform;
+                        ShowHandle(_selection);
                     }
                 }
                 else if (rightHold)
@@ -279,12 +288,21 @@ namespace Assets.Scripts
             _editorSelectionMarker.SetActive(true);
         }
 
-        private void HideHandle()
+        public void SetActivePrefab(Faction faction, Class @class)
         {
-            if(_editorSelectionMarker != null)
-            {
-                _editorSelectionMarker.SetActive(false);
-            }
+            _activeUnitPrefab = _prefabDict[faction][@class];
+        }
+
+        public void SaveCurrentSituation(string map, string situation)
+        {
+            var result = Situation.FromCurrentScene(_unitWrapper, _prefabDict, _mapGenerator.UnityToRealWorld);
+
+            // TODO: for now, saving is only supported if running in editor
+            #if UNITY_EDITOR
+            var writer = new StreamWriter("Assets/Maps/" + map + "/Situations/" + situation + ".json");
+            writer.Write(JsonUtility.ToJson(result));
+            writer.Close();
+            #endif
         }
     }
 }

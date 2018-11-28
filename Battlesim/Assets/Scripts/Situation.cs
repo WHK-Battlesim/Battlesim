@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions.Comparers;
@@ -8,8 +9,8 @@ namespace Assets.Scripts
     [Serializable]
     public class Situation
     {
-        public SerializableUnit[] Units;
-        public UnitStats[] Stats;
+        public List<SerializableUnit> Units;
+        public List<UnitStats> Stats;
 
         [Serializable]
         public class SerializableUnit
@@ -69,15 +70,80 @@ namespace Assets.Scripts
         public class UnitCombatStats
         {
             public int Count;
-            public float Morale;
+            public double Morale;
 
-            public float Health;
-            public float Damage;
-            public float Accuracy;
+            public double Health;
+            public double Damage;
+            public double Accuracy;
             public float Range;
-            public float MoraleDamage;
-            public float AreaDamage;
-            public float Spacing;
+            public double MoraleDamage;
+            public double AreaDamage;
+            public double Spacing;
+        }
+
+        public static Situation FromCurrentScene(
+            Transform unitWrapper,
+            Dictionary<Faction, Dictionary<Class, GameObject>> prefabDict,
+            Func<Vector3, Vector2> postionMapping)
+        {
+            var result = new Situation
+            {
+                Units = new List<SerializableUnit>(),
+                Stats = new List<UnitStats>()
+            };
+
+            var unitInstances = unitWrapper.GetComponentsInChildren<Unit>();
+
+            foreach (var unit in unitInstances)
+            {
+                var transform = unit.GetComponent<Transform>();
+
+                result.Units.Add(new SerializableUnit()
+                {
+                    Class = unit.Class,
+                    Faction = unit.Faction,
+                    Position = postionMapping(transform.position),
+                    Rotation = transform.rotation.eulerAngles.y
+                });
+            }
+
+            foreach (var factionPrefabs in prefabDict)
+            {
+                var faction = factionPrefabs.Key;
+
+                foreach (var classPrefab in factionPrefabs.Value)
+                {
+                    var @class = classPrefab.Key;
+                    var navMeshAgent = classPrefab.Value.GetComponent<NavMeshAgent>();
+                    var unit = classPrefab.Value.GetComponent<Unit>();
+
+                    result.Stats.Add(new UnitStats()
+                    {
+                        Class = @class,
+                        Faction = faction,
+                        Movement = new UnitMovementStats()
+                        {
+                            Speed = navMeshAgent.speed,
+                            AngularSpeed = navMeshAgent.angularSpeed,
+                            Acceleration = navMeshAgent.acceleration
+                        },
+                        Combat = new UnitCombatStats()
+                        {
+                            Count = unit.InitialCount,
+                            Damage = unit.Damage,
+                            Health = unit.Health,
+                            Spacing = unit.Spacing,
+                            AreaDamage = unit.AreaDamage,
+                            Accuracy = unit.Accuracy,
+                            Range = navMeshAgent.stoppingDistance,
+                            Morale = unit.InitialMorale,
+                            MoraleDamage = unit.MoraleDamage
+                        }
+                    });
+                }
+            }
+
+            return result;
         }
     }
 }

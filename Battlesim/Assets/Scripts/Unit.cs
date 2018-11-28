@@ -15,9 +15,7 @@ namespace Assets.Scripts
         Prussia,
         Austria
     }
-
-    [RequireComponent (typeof (NavMeshAgent))]
-    [RequireComponent (typeof (Animator))]
+    
     public class Unit : MonoBehaviour
     {
         public Class Class;
