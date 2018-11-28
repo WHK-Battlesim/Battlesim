@@ -684,6 +684,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultSituation: {fileID: 4900000, guid: 9c97979fc86a73545a89aeca50789c8f, type: 3}
+  EditorMode: 0
+  EditorSelectionMarker: {fileID: 0}
   Prefabs:
   - Name: Prussia
     Prefabs:
@@ -791,6 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1189e5da95ea2264cae22666cddc8232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EditorMode: 0
   DefaultHeightMap: {fileID: 2800000, guid: aaa1cbac2feab77488859b6a6d42ee49, type: 3}
   DefaultFeatureMap: {fileID: 2800000, guid: b01f0ed691d70ab48978795294395276, type: 3}
   DefaultDecorationMap: {fileID: 2800000, guid: 18582a3d99bb8a748bff9b755cae7113,
@@ -816,15 +819,42 @@ MonoBehaviour:
   Decorations:
   - Name: House
     DecorationMapColor: {r: 1, g: 0, b: 0, a: 1}
+    MinScale: 0.9
+    MaxScale: 1.3
+    RotationSteps: 4
+    Amount: 200
+    AlreadyPlaced: 0
     Prefabs:
     - {fileID: 1630878369219534, guid: a37c48f1b9113cd49b6d69e5bc6ba15a, type: 2}
   - Name: Tree
     DecorationMapColor: {r: 0, g: 1, b: 0, a: 1}
+    MinScale: 0.5
+    MaxScale: 1.5
+    RotationSteps: 360
+    Amount: 2000
+    AlreadyPlaced: 0
     Prefabs:
     - {fileID: 1026642648629026, guid: 82d9bb5efa1789247a799063863a3649, type: 2}
     - {fileID: 1043823112631302, guid: f517140b43697af44be522238ea51541, type: 2}
+  - Name: Stone
+    DecorationMapColor: {r: 0, g: 0, b: 0, a: 1}
+    MinScale: 0.1
+    MaxScale: 0.9
+    RotationSteps: 360
+    Amount: 1000
+    AlreadyPlaced: 0
+    Prefabs:
+    - {fileID: 1865675502448854, guid: db78364f99f1dbe419379dad12dc446d, type: 2}
+    - {fileID: 1688697460440648, guid: cfe5106dc9c05f14abe2cb1c64f4848b, type: 2}
+    - {fileID: 1850158429434884, guid: 60518d2cec0546b43acd94b87b5b7f28, type: 2}
+    - {fileID: 1594110179662480, guid: fe88fa5f8983026499fb47b66444def1, type: 2}
   - Name: None
     DecorationMapColor: {r: 1, g: 1, b: 1, a: 1}
+    MinScale: 1
+    MaxScale: 1
+    RotationSteps: 1
+    Amount: 0
+    AlreadyPlaced: 0
     Prefabs: []
 --- !u!4 &1921229072
 Transform:
