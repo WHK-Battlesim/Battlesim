@@ -187,8 +187,9 @@ namespace Assets.Scripts
             var rightHold = Input.GetMouseButton(1);
             var middleDown = Input.GetMouseButtonDown(2);
             var middleHold = Input.GetMouseButton(2);
+            var delDown = Input.GetKeyDown(KeyCode.Delete);
             
-            if (!(leftDown || rightHold || rightDown || middleDown || middleHold)) return;
+            if (!(leftDown || rightHold || rightDown || middleDown || middleHold || delDown)) return;
 
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit unitHit;
@@ -236,6 +237,12 @@ namespace Assets.Scripts
                     if (_selection == null) return;
 
                     _selection.rotation = _startRotation * Quaternion.AngleAxis(_startMousePosition.x - Input.mousePosition.x, Vector3.up);
+                }
+                else if (delDown)
+                {
+                    if (_selection == null) return;
+
+                    Destroy(_selection.gameObject);
                 }
             }
             else
