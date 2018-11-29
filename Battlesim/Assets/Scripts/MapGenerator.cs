@@ -88,7 +88,7 @@ namespace Assets.Scripts
 
         #region Public
 
-        [HideInInspector] public Dictionary<Class, NavMeshSurface> NavMeshDictionary;
+        [HideInInspector] public NavMeshSurface NavMesh;
 
         #endregion Public
 
@@ -184,21 +184,9 @@ namespace Assets.Scripts
                 },
                 EditorMode ? null : new LoadableStep()
                 {
-                    Name = "Building infantry navmesh",
+                    Name = "Building navmesh",
                     ProgressValue = 10,
-                    Action = _buildInfantryNavmesh
-                },
-                EditorMode ? null : new LoadableStep()
-                {
-                    Name = "Building cavalry navmesh",
-                    ProgressValue = 10,
-                    Action = _buildCavalryNavmesh
-                },
-                EditorMode ? null : new LoadableStep()
-                {
-                    Name = "Building artillery navmesh",
-                    ProgressValue = 10,
-                    Action = _buildArtilleryNavmesh
+                    Action = _buildNavmesh
                 },
                 EditorMode ? null : new LoadableStep()
                 {
@@ -338,29 +326,14 @@ namespace Assets.Scripts
             var setupState = state as SetupState;
             Debug.Assert(setupState != null, nameof(setupState) + " != null");
 
-            NavMeshDictionary = GetComponents<NavMeshSurface>()
-                .ToDictionary(navMeshSurface => (Class)Enum.Parse(typeof(Class), NavMesh.GetSettingsNameFromID(navMeshSurface.agentTypeID)));
+            NavMesh = GetComponent<NavMeshSurface>();
 
             return setupState;
         }
 
-        private object _buildInfantryNavmesh(object state)
+        private object _buildNavmesh(object state)
         {
-            NavMeshDictionary[Class.Infantry].BuildNavMesh();
-
-            return state;
-        }
-
-        private object _buildCavalryNavmesh(object state)
-        {
-            NavMeshDictionary[Class.Cavalry].BuildNavMesh();
-
-            return state;
-        }
-
-        private object _buildArtilleryNavmesh(object state)
-        {
-            NavMeshDictionary[Class.Artillery].BuildNavMesh();
+            NavMesh.BuildNavMesh();
 
             return state;
         }

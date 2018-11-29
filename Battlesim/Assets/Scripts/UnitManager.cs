@@ -148,18 +148,11 @@ namespace Assets.Scripts
                 foreach (var unitClass in faction)
                 {
                     var unit = unitClass.Value.GetComponent<Unit>();
-                    if(!EditorMode)
-                    {
-                        unitClass.Value.GetComponent<NavMeshAgent>().agentTypeID =
-                            _mapGenerator.NavMeshDictionary[unitClass.Key].agentTypeID;
-                    }
-                    else
-                    {
-                        // remove all unnecessary
-                        unit.enabled = false;
-                        unitClass.Value.GetComponent<NavMeshAgent>().enabled = false;
-                        Destroy(unitClass.Value.GetComponent<Animator>());
-                    }
+                    if (!EditorMode) continue;
+                    // remove all unnecessary
+                    unit.enabled = false;
+                    unitClass.Value.GetComponent<NavMeshAgent>().enabled = false;
+                    Destroy(unitClass.Value.GetComponent<Animator>());
                 }
             }
 
