@@ -26,6 +26,7 @@ namespace Assets.Scripts
         {
             public Class Class;
             public Faction Faction;
+            public Faction TargetFaction;
             public UnitMovementStats Movement;
             public UnitCombatStats Combat;
 
@@ -36,6 +37,7 @@ namespace Assets.Scripts
 
                 unit.Class = Class;
                 unit.Faction = Faction;
+                unit.TargetFaction = TargetFaction;
 
                 agent.speed = Movement.Speed;
                 agent.angularSpeed = Movement.AngularSpeed;
@@ -121,6 +123,7 @@ namespace Assets.Scripts
                     {
                         Class = @class,
                         Faction = faction,
+                        TargetFaction = unit.TargetFaction,
                         Movement = new UnitMovementStats()
                         {
                             Speed = navMeshAgent.speed,

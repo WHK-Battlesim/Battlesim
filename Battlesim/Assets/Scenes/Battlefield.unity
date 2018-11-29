@@ -686,6 +686,8 @@ MonoBehaviour:
   DefaultSituation: {fileID: 4900000, guid: 9c97979fc86a73545a89aeca50789c8f, type: 3}
   EditorMode: 0
   EditorSelectionMarker: {fileID: 0}
+  MinMsUntilRepath: 50
+  MaxMsUntilRepath: 100
   Prefabs:
   - Name: Prussia
     Prefabs:
@@ -703,6 +705,7 @@ MonoBehaviour:
       Prefab: {fileID: 1172791037645608, guid: 443711f1d141cf74aa0e8d2682044dd4, type: 2}
     - Name: Artillery
       Prefab: {fileID: 1170785054137654, guid: 8886fd58af09df64a872f9a0dbe9b573, type: 2}
+  Running: 0
 --- !u!4 &1724316210
 Transform:
   m_ObjectHideFlags: 0
@@ -803,6 +806,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Scale: {x: 0.01, y: 0.1, z: 0.01}
   NumberOfVertices: 1000
+  BucketCount: {x: 20, y: 20}
   TerrainFeatures:
   - Name: Land
     FeatureMapColor: {r: 1, g: 1, b: 1, a: 1}

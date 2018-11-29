@@ -908,7 +908,7 @@ Transform:
   m_GameObject: {fileID: 1232880706118914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4768321064950306}
   - {fileID: 4268456959868396}
@@ -1305,6 +1305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95d957ff189c5549bd7ce76dc121946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Class: 0
+  Faction: 0
+  TargetFaction: 0
   InitialCount: 0
   InitialMorale: 0
   Health: 0

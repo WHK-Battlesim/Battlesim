@@ -1,39 +1,157 @@
 {
     "Units": [
         {
-            "Class": 1,
+            "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 760000.0,
-                "y": 5710000.0
+                "x": 767274.25,
+                "y": 5724051.5
             },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 0,
-            "Faction": 0,
-            "Position": {
-                "x": 760500.0,
-                "y": 5710000.0
-            },
-            "Rotation": 0.0
+            "Rotation": 205.49998474121095
         },
         {
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 761000.0,
-                "y": 5710000.0
+                "x": 766917.8125,
+                "y": 5724096.0
             },
-            "Rotation": 90.0
+            "Rotation": 181.50001525878907
+        },
+        {
+            "Class": 2,
+            "Faction": 0,
+            "Position": {
+                "x": 766583.1875,
+                "y": 5724122.5
+            },
+            "Rotation": 170.99998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 767264.9375,
+                "y": 5723514.0
+            },
+            "Rotation": 201.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 767071.5625,
+                "y": 5723565.0
+            },
+            "Rotation": 186.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 766892.125,
+                "y": 5723607.5
+            },
+            "Rotation": 192.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 766657.9375,
+                "y": 5723662.5
+            },
+            "Rotation": 178.49998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 767799.0,
+                "y": 5721919.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 767628.1875,
+                "y": 5721938.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 767466.5625,
+                "y": 5721960.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 767325.4375,
+                "y": 5721988.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 767172.1875,
+                "y": 5722037.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 767059.875,
+                "y": 5722082.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 767370.5625,
+                "y": 5721189.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 767228.8125,
+                "y": 5721229.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 767100.8125,
+                "y": 5721238.5
+            },
+            "Rotation": 0.0
         }
     ],
     "Stats": [
         {
             "Class": 0,
             "Faction": 0,
+            "TargetFaction": 1,
             "Movement": {
-                "Speed": 3.0,
+                "Speed": 1.0,
                 "AngularSpeed": 140.0,
                 "Acceleration": 10.0
             },
@@ -52,8 +170,9 @@
         {
             "Class": 1,
             "Faction": 0,
+            "TargetFaction": 1,
             "Movement": {
-                "Speed": 5.0,
+                "Speed": 2.0,
                 "AngularSpeed": 50.0,
                 "Acceleration": 15.0
             },
@@ -63,7 +182,7 @@
                 "Health": 100.0,
                 "Damage": 50.0,
                 "Accuracy": 100.0,
-                "Range": 0.10000000149011612,
+                "Range": 0.1,
                 "MoraleDamage": 3.0,
                 "AreaDamage": 1.0,
                 "Spacing": 7.0
@@ -72,8 +191,9 @@
         {
             "Class": 2,
             "Faction": 0,
+            "TargetFaction": 1,
             "Movement": {
-                "Speed": 2.0,
+                "Speed": 0.5,
                 "AngularSpeed": 140.0,
                 "Acceleration": 5.0
             },
@@ -92,8 +212,9 @@
         {
             "Class": 0,
             "Faction": 1,
+            "TargetFaction": 0,
             "Movement": {
-                "Speed": 3.0,
+                "Speed": 1.0,
                 "AngularSpeed": 140.0,
                 "Acceleration": 10.0
             },
@@ -112,8 +233,9 @@
         {
             "Class": 1,
             "Faction": 1,
+            "TargetFaction": 0,
             "Movement": {
-                "Speed": 5.0,
+                "Speed": 2.0,
                 "AngularSpeed": 50.0,
                 "Acceleration": 15.0
             },
@@ -123,7 +245,7 @@
                 "Health": 100.0,
                 "Damage": 50.0,
                 "Accuracy": 100.0,
-                "Range": 0.10000000149011612,
+                "Range": 0.1,
                 "MoraleDamage": 3.0,
                 "AreaDamage": 1.0,
                 "Spacing": 7.0
@@ -132,8 +254,9 @@
         {
             "Class": 2,
             "Faction": 1,
+            "TargetFaction": 0,
             "Movement": {
-                "Speed": 2.0,
+                "Speed": 0.5,
                 "AngularSpeed": 140.0,
                 "Acceleration": 5.0
             },

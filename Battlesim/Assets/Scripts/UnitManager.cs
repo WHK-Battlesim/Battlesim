@@ -8,6 +8,7 @@ using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using Input = UnityEngine.Input;
 using MeshRenderer = UnityEngine.MeshRenderer;
+using Random = System.Random;
 
 namespace Assets.Scripts
 {
@@ -18,9 +19,13 @@ namespace Assets.Scripts
         public TextAsset DefaultSituation;
         public bool EditorMode;
         public GameObject EditorSelectionMarker;
+        public int MinMsUntilRepath = 50;
+        public int MaxMsUntilRepath = 100;
         public List<FactionPrefabs> Prefabs = FactionPrefabs.All();
 
         #endregion Inspector
+
+        [HideInInspector] public bool Running;
 
         #region Private
 
@@ -137,10 +142,12 @@ namespace Assets.Scripts
                 _prefabDict.Add((Faction) faction, factionDict);
             }
 
+            var random = new Random();
             foreach (var faction in _prefabDict.Values)
             {
                 foreach (var unitClass in faction)
                 {
+                    var unit = unitClass.Value.GetComponent<Unit>();
                     if(!EditorMode)
                     {
                         unitClass.Value.GetComponent<NavMeshAgent>().agentTypeID =
@@ -149,7 +156,7 @@ namespace Assets.Scripts
                     else
                     {
                         // remove all unnecessary
-                        unitClass.Value.GetComponent<Unit>().enabled = false;
+                        unit.enabled = false;
                         unitClass.Value.GetComponent<NavMeshAgent>().enabled = false;
                         Destroy(unitClass.Value.GetComponent<Animator>());
                     }
@@ -158,7 +165,6 @@ namespace Assets.Scripts
 
             foreach (var stat in _situation.Stats)
             {
-                stat.ApplyTo(_prefabDict[stat.Faction][stat.Class]);
                 stat.ApplyTo(_prefabDict[stat.Faction][stat.Class]);
             }
 
@@ -170,12 +176,17 @@ namespace Assets.Scripts
                     _mapGenerator.RealWorldToUnity(unit.Position),
                     Quaternion.AngleAxis(unit.Rotation, Vector3.up),
                     _unitWrapper);
-
+                
                 if (EditorMode) continue;
 
                 var unitInstance = instance.GetComponent<Unit>();
                 unitInstance.Bucket = _mapGenerator.GetBucket(instance.transform.position);
                 unitInstance.MapGenerator = _mapGenerator;
+                unitInstance.UnitManager = this;
+                unitInstance.Random = random;
+                unitInstance.MinMsUntilRepath = MinMsUntilRepath;
+                unitInstance.MaxMsUntilRepath = MaxMsUntilRepath;
+                unitInstance.RandomizeRepathTime();
             }
 
             return state;
@@ -193,8 +204,9 @@ namespace Assets.Scripts
             var middleDown = Input.GetMouseButtonDown(2);
             var middleHold = Input.GetMouseButton(2);
             var delDown = Input.GetKeyDown(KeyCode.Delete);
+            var spaceDown = Input.GetKeyDown(KeyCode.Space);
             
-            if (!(leftDown || rightHold || rightDown || middleDown || middleHold || delDown)) return;
+            if (!(leftDown || rightHold || rightDown || middleDown || middleHold || delDown || spaceDown)) return;
 
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit unitHit;
@@ -262,6 +274,9 @@ namespace Assets.Scripts
                     {
                         _activeAgent.SetDestination(terrainHit.point);
                     }
+                } else if(spaceDown)
+                {
+                    Running = !Running;
                 }
             }
         }
