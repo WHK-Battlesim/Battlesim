@@ -4,190 +4,217 @@
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 767857.25,
-                "y": 5723223.0
+                "x": 757294.125,
+                "y": 5707617.0
             },
-            "Rotation": 196.5
+            "Rotation": 0.0
         },
         {
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 768124.9375,
-                "y": 5723189.5
+                "x": 756908.875,
+                "y": 5707589.5
             },
-            "Rotation": 207.00003051757813
+            "Rotation": 0.0
         },
         {
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 767529.0625,
-                "y": 5723312.0
+                "x": 756558.0,
+                "y": 5707543.0
             },
-            "Rotation": 186.0
+            "Rotation": 0.0
         },
         {
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 768201.625,
-                "y": 5722852.5
+                "x": 757552.8125,
+                "y": 5707814.5
             },
-            "Rotation": 201.00003051757813
+            "Rotation": 0.0
         },
         {
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 767638.125,
-                "y": 5722961.0
+                "x": 757401.6875,
+                "y": 5707798.0
             },
-            "Rotation": 186.0
+            "Rotation": 0.0
         },
         {
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 767504.0,
-                "y": 5723003.0
+                "x": 757307.9375,
+                "y": 5707793.5
             },
-            "Rotation": 192.00001525878907
+            "Rotation": 0.0
         },
         {
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 767256.875,
-                "y": 5722999.5
-            },
-            "Rotation": 178.49998474121095
-        },
-        {
-            "Class": 0,
-            "Faction": 1,
-            "Position": {
-                "x": 767799.0,
-                "y": 5721919.0
+                "x": 757147.875,
+                "y": 5707771.5
             },
             "Rotation": 0.0
-        },
-        {
-            "Class": 0,
-            "Faction": 1,
-            "Position": {
-                "x": 767628.1875,
-                "y": 5721938.5
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 0,
-            "Faction": 1,
-            "Position": {
-                "x": 767466.5625,
-                "y": 5721960.0
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 0,
-            "Faction": 1,
-            "Position": {
-                "x": 767325.4375,
-                "y": 5721988.5
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 0,
-            "Faction": 1,
-            "Position": {
-                "x": 767172.1875,
-                "y": 5722037.0
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 0,
-            "Faction": 1,
-            "Position": {
-                "x": 767059.875,
-                "y": 5722082.5
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 1,
-            "Faction": 1,
-            "Position": {
-                "x": 768335.8125,
-                "y": 5721324.0
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 1,
-            "Faction": 1,
-            "Position": {
-                "x": 767228.8125,
-                "y": 5721229.5
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 1,
-            "Faction": 1,
-            "Position": {
-                "x": 766243.75,
-                "y": 5721686.5
-            },
-            "Rotation": 33.0
         },
         {
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 767991.125,
-                "y": 5722956.5
+                "x": 757018.5,
+                "y": 5707775.5
             },
-            "Rotation": 225.00001525878907
+            "Rotation": 0.0
         },
         {
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 767823.375,
-                "y": 5722994.5
+                "x": 756896.4375,
+                "y": 5707761.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756805.125,
+                "y": 5707741.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756686.875,
+                "y": 5707724.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756586.75,
+                "y": 5707698.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756483.5,
+                "y": 5707695.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 757331.375,
+                "y": 5708521.5
+            },
+            "Rotation": 189.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 757144.5,
+                "y": 5708509.0
             },
             "Rotation": 194.99998474121095
         },
         {
             "Class": 0,
-            "Faction": 0,
+            "Faction": 1,
             "Position": {
-                "x": 768386.6875,
-                "y": 5722827.5
+                "x": 756972.375,
+                "y": 5708482.5
             },
-            "Rotation": 202.49998474121095
+            "Rotation": 190.49998474121095
         },
         {
             "Class": 0,
-            "Faction": 0,
+            "Faction": 1,
             "Position": {
-                "x": 767387.375,
-                "y": 5723028.5
+                "x": 756823.25,
+                "y": 5708457.0
             },
-            "Rotation": 198.0
+            "Rotation": 186.0
         },
         {
             "Class": 0,
-            "Faction": 0,
+            "Faction": 1,
             "Position": {
-                "x": 768122.5,
-                "y": 5722931.0
+                "x": 756709.5,
+                "y": 5708443.0
             },
-            "Rotation": 198.0
+            "Rotation": 171.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756593.3125,
+                "y": 5708438.5
+            },
+            "Rotation": 175.49998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756528.875,
+                "y": 5708435.0
+            },
+            "Rotation": 180.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756381.6875,
+                "y": 5708392.5
+            },
+            "Rotation": 171.0
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 757690.9375,
+                "y": 5709104.0
+            },
+            "Rotation": 208.5
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 755527.125,
+                "y": 5708593.0
+            },
+            "Rotation": 121.49998474121094
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 755478.8125,
+                "y": 5708408.0
+            },
+            "Rotation": 98.9999771118164
         }
     ],
     "Stats": [
