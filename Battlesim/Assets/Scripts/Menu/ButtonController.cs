@@ -7,6 +7,10 @@ using System.Linq;
 using System.IO;
 using System;
 
+public static class CurrentMap {
+    public static string Subfolder { get; set; }
+}
+
 public class ButtonController : MonoBehaviour {
 
     public GameObject buttonPrefab;
@@ -20,6 +24,7 @@ public class ButtonController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        CurrentMap.Subfolder = null;
         string mapIndexJson = Resources.Load<TextAsset>("Maps/mapIndex").text;
         MapIndex mapIndex = JsonUtility.FromJson<MapIndex>(mapIndexJson);
         foreach (var folder in mapIndex.folders) {
@@ -39,6 +44,7 @@ public class ButtonController : MonoBehaviour {
 
         button.GetComponent<Button>().onClick.AddListener(
             () => ButtonClick(
+                subfolder,
                 GetDescription(subfolder),
                 GetThumbnailSprite(subfolder))
         );
@@ -64,7 +70,8 @@ public class ButtonController : MonoBehaviour {
         return descriptionAsset != null ? descriptionAsset.text : "Description missing";
     }
 
-    void ButtonClick(string text, Sprite thumbnailSprite) {
+    void ButtonClick(string subfolder, string text, Sprite thumbnailSprite) {
+        CurrentMap.Subfolder = subfolder;
         descriptionTextBox.GetComponent<Text>().text = text;
         mapThumbnail.GetComponent<Image>().overrideSprite = thumbnailSprite;
     }

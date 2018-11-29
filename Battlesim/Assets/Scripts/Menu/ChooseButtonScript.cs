@@ -9,12 +9,13 @@ public class ChooseButtonScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         gameObject.GetComponent<Button>().onClick.AddListener(
-            () => SceneManager.LoadScene("Situation Menu")
+            () => ButtonPress()
         );
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void ButtonPress() {
+        if (CurrentMap.Subfolder != null) {
+            SceneManager.LoadScene("Situation Menu");
+        }
+    }
 }
