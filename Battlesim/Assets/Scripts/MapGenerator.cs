@@ -549,6 +549,7 @@ namespace Assets.Scripts
 
                     foreach (var unit in bucket.GetUnits(faction))
                     {
+                        if (!unit.Alive()) continue;
                         var dist = (unit.transform.position - position).magnitude;
                         if (!(dist < minDist)) continue;
                         minDist = dist;

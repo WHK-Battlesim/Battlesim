@@ -181,6 +181,7 @@ namespace Assets.Scripts
 
                 var unitInstance = instance.GetComponent<Unit>();
                 unitInstance.Bucket = _mapGenerator.GetBucket(instance.transform.position);
+                unitInstance.Bucket.Enter(unitInstance);
                 unitInstance.MapGenerator = _mapGenerator;
                 unitInstance.UnitManager = this;
                 unitInstance.Random = random;

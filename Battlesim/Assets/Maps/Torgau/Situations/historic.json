@@ -4,44 +4,26 @@
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 767274.25,
-                "y": 5724051.5
+                "x": 767857.25,
+                "y": 5723223.0
             },
-            "Rotation": 205.49998474121095
+            "Rotation": 196.5
         },
         {
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 766917.8125,
-                "y": 5724096.0
+                "x": 768124.9375,
+                "y": 5723189.5
             },
-            "Rotation": 181.50001525878907
+            "Rotation": 207.00003051757813
         },
         {
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 766583.1875,
-                "y": 5724122.5
-            },
-            "Rotation": 170.99998474121095
-        },
-        {
-            "Class": 0,
-            "Faction": 0,
-            "Position": {
-                "x": 767264.9375,
-                "y": 5723514.0
-            },
-            "Rotation": 201.0
-        },
-        {
-            "Class": 0,
-            "Faction": 0,
-            "Position": {
-                "x": 767071.5625,
-                "y": 5723565.0
+                "x": 767529.0625,
+                "y": 5723312.0
             },
             "Rotation": 186.0
         },
@@ -49,17 +31,35 @@
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 766892.125,
-                "y": 5723607.5
+                "x": 768201.625,
+                "y": 5722852.5
             },
-            "Rotation": 192.0
+            "Rotation": 201.00003051757813
         },
         {
             "Class": 0,
             "Faction": 0,
             "Position": {
-                "x": 766657.9375,
-                "y": 5723662.5
+                "x": 767638.125,
+                "y": 5722961.0
+            },
+            "Rotation": 186.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 767504.0,
+                "y": 5723003.0
+            },
+            "Rotation": 192.00001525878907
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 767256.875,
+                "y": 5722999.5
             },
             "Rotation": 178.49998474121095
         },
@@ -121,8 +121,8 @@
             "Class": 1,
             "Faction": 1,
             "Position": {
-                "x": 767370.5625,
-                "y": 5721189.0
+                "x": 768335.8125,
+                "y": 5721324.0
             },
             "Rotation": 0.0
         },
@@ -139,10 +139,55 @@
             "Class": 1,
             "Faction": 1,
             "Position": {
-                "x": 767100.8125,
-                "y": 5721238.5
+                "x": 766243.75,
+                "y": 5721686.5
             },
-            "Rotation": 0.0
+            "Rotation": 33.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 767991.125,
+                "y": 5722956.5
+            },
+            "Rotation": 225.00001525878907
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 767823.375,
+                "y": 5722994.5
+            },
+            "Rotation": 194.99998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 768386.6875,
+                "y": 5722827.5
+            },
+            "Rotation": 202.49998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 767387.375,
+                "y": 5723028.5
+            },
+            "Rotation": 198.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 768122.5,
+                "y": 5722931.0
+            },
+            "Rotation": 198.0
         }
     ],
     "Stats": [
@@ -159,9 +204,10 @@
                 "Count": 112,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 10.0,
+                "Damage": 50.0,
                 "Accuracy": 10.0,
                 "Range": 2.0,
+                "ReloadTime": 2.0,
                 "MoraleDamage": 1.0,
                 "AreaDamage": 1.0,
                 "Spacing": 5.0
@@ -182,7 +228,8 @@
                 "Health": 100.0,
                 "Damage": 50.0,
                 "Accuracy": 100.0,
-                "Range": 0.1,
+                "Range": 0.10000000149011612,
+                "ReloadTime": 1.0,
                 "MoraleDamage": 3.0,
                 "AreaDamage": 1.0,
                 "Spacing": 7.0
@@ -201,9 +248,10 @@
                 "Count": 1,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 150.0,
+                "Damage": 200.0,
                 "Accuracy": 50.0,
-                "Range": 4.0,
+                "Range": 5.0,
+                "ReloadTime": 3.0,
                 "MoraleDamage": 5.0,
                 "AreaDamage": 10.0,
                 "Spacing": 15.0
@@ -222,9 +270,10 @@
                 "Count": 112,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 10.0,
+                "Damage": 50.0,
                 "Accuracy": 10.0,
                 "Range": 2.0,
+                "ReloadTime": 2.0,
                 "MoraleDamage": 1.0,
                 "AreaDamage": 1.0,
                 "Spacing": 5.0
@@ -245,7 +294,8 @@
                 "Health": 100.0,
                 "Damage": 50.0,
                 "Accuracy": 100.0,
-                "Range": 0.1,
+                "Range": 0.10000000149011612,
+                "ReloadTime": 1.0,
                 "MoraleDamage": 3.0,
                 "AreaDamage": 1.0,
                 "Spacing": 7.0
@@ -264,9 +314,10 @@
                 "Count": 1,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 150.0,
+                "Damage": 200.0,
                 "Accuracy": 50.0,
-                "Range": 4.0,
+                "Range": 5.0,
+                "ReloadTime": 3.0,
                 "MoraleDamage": 5.0,
                 "AreaDamage": 10.0,
                 "Spacing": 15.0

@@ -46,9 +46,10 @@ namespace Assets.Scripts
                 unit.InitialCount = Combat.Count;
                 unit.InitialMorale = Combat.Morale;
 
-                unit.Health = Combat.Health;
+                unit.InitialHealth = Combat.Health;
                 unit.Accuracy = Combat.Accuracy;
                 unit.Damage = Combat.Damage;
+                unit.ReloadTime = Combat.ReloadTime;
 
                 // let range be handled by the NavMeshAgent
                 agent.stoppingDistance = Combat.Range;
@@ -78,6 +79,7 @@ namespace Assets.Scripts
             public double Damage;
             public double Accuracy;
             public float Range;
+            public double ReloadTime;
             public double MoraleDamage;
             public double AreaDamage;
             public double Spacing;
@@ -134,11 +136,12 @@ namespace Assets.Scripts
                         {
                             Count = unit.InitialCount,
                             Damage = unit.Damage,
-                            Health = unit.Health,
+                            Health = unit.InitialHealth,
                             Spacing = unit.Spacing,
                             AreaDamage = unit.AreaDamage,
                             Accuracy = unit.Accuracy,
                             Range = navMeshAgent.stoppingDistance,
+                            ReloadTime = unit.ReloadTime,
                             Morale = unit.InitialMorale,
                             MoraleDamage = unit.MoraleDamage
                         }
