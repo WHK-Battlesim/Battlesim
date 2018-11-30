@@ -52,18 +52,30 @@ public class ButtonController : MonoBehaviour {
     }
 
     Sprite GetThumbnailSprite(string subfolder) {
-        Texture2D t = Resources.Load<Texture2D>("Maps/" + subfolder + "/Tiles_old");
-        int w, h;
+        Texture2D t = Resources.Load<Texture2D>("Maps/" + subfolder + "/Thumbnail");
+        Rect r;
         if (t == null) {
             t = Texture2D.whiteTexture;
-            w = 1;
-            h = 1;
+            r = new Rect(0, 0, 1, 1);
         }
         else {
-            w = t.width;
-            h = t.height;
+            var imageRect = mapThumbnail.GetComponent<Image>().GetPixelAdjustedRect();
+            if (imageRect.width > imageRect.height) {
+                var ratio = imageRect.height / imageRect.width;
+                Debug.Log(ratio);
+                Debug.Log(t.width);
+                Debug.Log(t.height * ratio);
+                r = new Rect(0, 0, t.width, t.height * ratio);
+            }
+            else {
+                var ratio = imageRect.width / imageRect.height;
+                Debug.Log(ratio);
+                Debug.Log(t.height);
+                Debug.Log(t.width * ratio);
+                r = new Rect(0, 0, t.width * ratio, t.height);
+            }
         }
-        return Sprite.Create(t, new Rect(0, 0, w, h), Vector2.zero);
+        return Sprite.Create(t, r, Vector2.zero);
     }
 
     string GetDescription(string subfolder) {
