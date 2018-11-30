@@ -833,6 +833,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a452bf306464d9887e8f235d0b8727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  historischButton: {fileID: 2065282827}
+  resetButton: {fileID: 1646228186}
+  situation1Button: {fileID: 646709411}
+  situation2Button: {fileID: 674709501}
+  situation3Button: {fileID: 789762037}
+  startButton: {fileID: 1368059016}
+  editButton: {fileID: 712014246}
+  backButton: {fileID: 1774055486}
 --- !u!4 &750250482
 Transform:
   m_ObjectHideFlags: 0

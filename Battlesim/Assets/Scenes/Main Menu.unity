@@ -942,7 +942,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2021950244}
   m_HandleRect: {fileID: 2021950243}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1995,7 +1995,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1983908070
@@ -2031,7 +2031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea7835a0b1ed48c8968021d363bd2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 0}
+  buttonPrefab: {fileID: 1138518831713310, guid: 36c3a01952726475e857426fc0c75903,
+    type: 2}
   descriptionTextBox: {fileID: 172349739}
   mapThumbnail: {fileID: 1162640873}
 --- !u!1 &2021950242

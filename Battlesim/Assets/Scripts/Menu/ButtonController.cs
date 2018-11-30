@@ -9,6 +9,7 @@ using System;
 
 public static class CurrentMap {
     public static string Subfolder { get; set; }
+    public static int Situation { get; set; }
 }
 
 public class ButtonController : MonoBehaviour {
