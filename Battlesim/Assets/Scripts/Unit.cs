@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AI;
+using Random = System.Random;
 
 namespace Assets.Scripts
 {
@@ -20,6 +22,7 @@ namespace Assets.Scripts
     {
         public Class Class;
         public Faction Faction;
+        public Faction TargetFaction;
 
         /*
          * The overall count of soldiers in this unit an the unit's moral value.
@@ -37,10 +40,10 @@ namespace Assets.Scripts
          * Accuracy is the offensive counterpart: Higher accuracy leads to higher chance of killing a soldier.
          * The range states how close a unit has to get to the enemy to start doing damage.
          */
-        public double Health;
+        public double InitialHealth;
         public double Damage;
         public double Accuracy;
-        public double Range;
+        public double ReloadTime;
 
         /*
          * Psychological damage stats:
@@ -55,11 +58,23 @@ namespace Assets.Scripts
          */
         public double AreaDamage;
         public double Spacing;
+        
+        [HideInInspector] public MapGenerator MapGenerator;
+        [HideInInspector] public UnitManager UnitManager;
+        [HideInInspector] public Bucket Bucket;
+        [HideInInspector] public int MinMsUntilRepath;
+        [HideInInspector] public int MaxMsUntilRepath;
+        [HideInInspector] public Random Random;
 
         private NavMeshAgent _agent;
         private Animator _animator;
-        private int _health;
-        private double _moral;
+        private Unit _target;
+        private int _count;
+        private double _morale;
+        private double _health;
+        
+        private int _msUntilRepath;
+        private double _sUntilAttack;
 
         private void Start()
         {
@@ -67,26 +82,101 @@ namespace Assets.Scripts
             _agent = GetComponent<NavMeshAgent>();
 
             _agent.updatePosition = false;
+            transform.position = _agent.nextPosition;
+            
+            RandomizeRepathTime();
+
+            _count = InitialCount;
+            _health = InitialHealth;
+            _morale = InitialMorale;
+            _sUntilAttack = ReloadTime;
         }
 
         private void Update()
         {
+            if (UnitManager == null || !UnitManager.Running) return;
+
             var moving = _agent.remainingDistance > _agent.stoppingDistance;
             _animator.SetBool("Moving", moving);
             if (!moving)
             {
                 _agent.velocity = Vector3.zero;
+
+                if(_target != null)
+                {
+                    Attack();
+                    _sUntilAttack -= Time.deltaTime;
+                }
             }
-            else
+
+            _msUntilRepath -= (int) (Time.deltaTime * 1000);
+            if (_msUntilRepath > 0) return;
+
+            _target = MapGenerator.GetNearestUnit(transform.position, TargetFaction);
+            if (_target != null)
             {
-                _agent.Move(transform.forward * Time.deltaTime * _agent.velocity.magnitude);
+                _agent.SetDestination(_target.transform.position);
             }
+
+            RandomizeRepathTime();
         }
 
         private void OnAnimatorMove()
         {
-            if (_agent != null)
-                transform.position = _agent.nextPosition;
+            if (UnitManager == null || !UnitManager.Running) return;
+
+            if (_agent == null) return;
+
+            transform.position = _agent.nextPosition;
+
+            if (!Bucket.Contains(transform.position))
+            {
+                UpdateBucket();
+            }
+        }
+
+        private void UpdateBucket()
+        {
+            Bucket.Leave(this);
+            Bucket = MapGenerator.GetBucket(transform.position);
+            Bucket.Enter(this);
+        }
+
+        public void RandomizeRepathTime()
+        {
+            _msUntilRepath = Random.Next(MinMsUntilRepath, MaxMsUntilRepath);
+        }
+
+        private void Attack()
+        {
+            if (!(_sUntilAttack <= 0)) return;
+            _sUntilAttack += ReloadTime;
+
+            _animator.SetTrigger("Fight");
+
+            _target._health -= Damage * _count * AreaDamage;
+
+            var killCount = (int)Math.Floor(_target._health / _target.InitialHealth);
+
+            _target._count -= killCount;
+            _target._health += killCount * _target.InitialHealth;
+
+            if (_target._count <= 0)
+            {
+                _target.Die();
+            }
+        }
+
+        private void Die()
+        {
+            _animator.SetTrigger("Die");
+            _agent.enabled = false;
+            enabled = false;
+        }
+
+        public bool Alive()
+        {
+            return _count > 0;
         }
     }
 }

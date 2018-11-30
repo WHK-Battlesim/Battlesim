@@ -26,6 +26,7 @@ namespace Assets.Scripts
         {
             public Class Class;
             public Faction Faction;
+            public Faction TargetFaction;
             public UnitMovementStats Movement;
             public UnitCombatStats Combat;
 
@@ -36,6 +37,7 @@ namespace Assets.Scripts
 
                 unit.Class = Class;
                 unit.Faction = Faction;
+                unit.TargetFaction = TargetFaction;
 
                 agent.speed = Movement.Speed;
                 agent.angularSpeed = Movement.AngularSpeed;
@@ -44,9 +46,10 @@ namespace Assets.Scripts
                 unit.InitialCount = Combat.Count;
                 unit.InitialMorale = Combat.Morale;
 
-                unit.Health = Combat.Health;
+                unit.InitialHealth = Combat.Health;
                 unit.Accuracy = Combat.Accuracy;
                 unit.Damage = Combat.Damage;
+                unit.ReloadTime = Combat.ReloadTime;
 
                 // let range be handled by the NavMeshAgent
                 agent.stoppingDistance = Combat.Range;
@@ -76,6 +79,7 @@ namespace Assets.Scripts
             public double Damage;
             public double Accuracy;
             public float Range;
+            public double ReloadTime;
             public double MoraleDamage;
             public double AreaDamage;
             public double Spacing;
@@ -121,6 +125,7 @@ namespace Assets.Scripts
                     {
                         Class = @class,
                         Faction = faction,
+                        TargetFaction = unit.TargetFaction,
                         Movement = new UnitMovementStats()
                         {
                             Speed = navMeshAgent.speed,
@@ -131,11 +136,12 @@ namespace Assets.Scripts
                         {
                             Count = unit.InitialCount,
                             Damage = unit.Damage,
-                            Health = unit.Health,
+                            Health = unit.InitialHealth,
                             Spacing = unit.Spacing,
                             AreaDamage = unit.AreaDamage,
                             Accuracy = unit.Accuracy,
                             Range = navMeshAgent.stoppingDistance,
+                            ReloadTime = unit.ReloadTime,
                             Morale = unit.InitialMorale,
                             MoraleDamage = unit.MoraleDamage
                         }

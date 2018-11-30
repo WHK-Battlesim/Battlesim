@@ -30,6 +30,7 @@ namespace Assets.Scripts
         public Vector3 Offset = Vector3.zero;
         public Vector3 Scale = new Vector3(0.01f, 0.1f, 0.01f);
         public int NumberOfVertices = 50000;
+        public Vector2Int BucketCount = new Vector2Int(20, 20);
 
         public List<TerrainFeature> TerrainFeatures = new List<TerrainFeature>()
         {
@@ -87,7 +88,7 @@ namespace Assets.Scripts
 
         #region Public
 
-        [HideInInspector] public Dictionary<Class, NavMeshSurface> NavMeshDictionary;
+        [HideInInspector] public NavMeshSurface NavMesh;
 
         #endregion Public
 
@@ -97,6 +98,7 @@ namespace Assets.Scripts
         private Texture2D _featureMap;
         private Texture2D _decorationMap;
         private Extents _extents;
+        private List<List<Bucket>> _buckets;
 
         #endregion Private
         
@@ -182,21 +184,15 @@ namespace Assets.Scripts
                 },
                 EditorMode ? null : new LoadableStep()
                 {
-                    Name = "Building infantry navmesh",
+                    Name = "Building navmesh",
                     ProgressValue = 10,
-                    Action = _buildInfantryNavmesh
+                    Action = _buildNavmesh
                 },
                 EditorMode ? null : new LoadableStep()
                 {
-                    Name = "Building cavalry navmesh",
-                    ProgressValue = 10,
-                    Action = _buildCavalryNavmesh
-                },
-                EditorMode ? null : new LoadableStep()
-                {
-                    Name = "Building artillery navmesh",
-                    ProgressValue = 10,
-                    Action = _buildArtilleryNavmesh
+                    Name = "Filling buckets",
+                    ProgressValue = 2,
+                    Action = _setUpBuckets
                 },
                 new LoadableStep()
                 {
@@ -330,29 +326,14 @@ namespace Assets.Scripts
             var setupState = state as SetupState;
             Debug.Assert(setupState != null, nameof(setupState) + " != null");
 
-            NavMeshDictionary = GetComponents<NavMeshSurface>()
-                .ToDictionary(navMeshSurface => (Class)Enum.Parse(typeof(Class), NavMesh.GetSettingsNameFromID(navMeshSurface.agentTypeID)));
+            NavMesh = GetComponent<NavMeshSurface>();
 
             return setupState;
         }
 
-        private object _buildInfantryNavmesh(object state)
+        private object _buildNavmesh(object state)
         {
-            NavMeshDictionary[Class.Infantry].BuildNavMesh();
-
-            return state;
-        }
-
-        private object _buildCavalryNavmesh(object state)
-        {
-            NavMeshDictionary[Class.Cavalry].BuildNavMesh();
-
-            return state;
-        }
-
-        private object _buildArtilleryNavmesh(object state)
-        {
-            NavMeshDictionary[Class.Artillery].BuildNavMesh();
+            NavMesh.BuildNavMesh();
 
             return state;
         }
@@ -398,13 +379,11 @@ namespace Assets.Scripts
                 // the object already contains a rotation, so we can't just pass one to instantiate
                 instance.transform.position = GetPostionForTextureCoord(pos.x, pos.y);
                 var euler = instance.transform.localRotation.eulerAngles;
-                var yRotation = 
                 euler.y = random.Next(0, deco.RotationSteps-1) * 360f / deco.RotationSteps;
                 instance.transform.localRotation = Quaternion.Euler(euler);
                 instance.transform.localScale *= deco.MinScale + (float)random.NextDouble() * (deco.MaxScale - deco.MinScale);
                 deco.AlreadyPlaced++;
-
-                //i++;
+                
                 done = true;
                 foreach(var d in Decorations)
                 {
@@ -412,6 +391,26 @@ namespace Assets.Scripts
                 }
             }
             
+            return state;
+        }
+
+        private object _setUpBuckets(object state)
+        {
+            var size = Vector3.Scale(Scale, _extents.Scale);
+            var xSize = size.x / BucketCount.x;
+            var ySize = size.z / BucketCount.y;
+            var bucketSize = new Vector2(xSize, ySize);
+
+            _buckets = new List<List<Bucket>>();
+            for (var x = 0; x < BucketCount.x; x++)
+            {
+                _buckets.Add(new List<Bucket>());
+                for (var y = 0; y < BucketCount.y; y++)
+                {
+                    _buckets[x].Add(new Bucket(new Vector2(xSize * x, ySize * y), bucketSize));
+                }
+            }
+
             return state;
         }
 
@@ -461,6 +460,80 @@ namespace Assets.Scripts
         public Vector2 UnityToRealWorld(Vector3 position)
         {
             return new Vector2((float) ((position.x - Offset.x) / Scale.x + _extents.MinX), (float) ((position.z - Offset.z) / Scale.z + _extents.MinY));
+        }
+
+        public Bucket GetBucket(Vector3 position)
+        {
+            var id = GetBucketId(position);
+            return _buckets[id.x][id.y];
+        }
+
+        private Vector2Int GetBucketId(Vector3 position)
+        {
+            var size = Vector3.Scale(Scale, _extents.Scale);
+            var x = Mathf.RoundToInt(Mathf.Clamp((position.x - Offset.x) * BucketCount.x / size.x, 0, BucketCount.x - 1));
+            var y = Mathf.RoundToInt(Mathf.Clamp((position.z - Offset.z) * BucketCount.y / size.z, 0, BucketCount.y - 1));
+            return new Vector2Int(x, y);
+        }
+
+        private List<Bucket> GetBucketsInRange(Vector2Int center, float rangeInBucketCountSpace)
+        {
+            var result = new List<Bucket>();
+
+            var lower = Mathf.RoundToInt(-rangeInBucketCountSpace);
+            var upper = Mathf.RoundToInt(rangeInBucketCountSpace);
+
+            for (var x = lower; x <= upper; x++)
+            {
+                for (var y = lower; y <= upper; y++)
+                {
+                    var xPos = center.x + x;
+                    var yPos = center.y + y;
+                    if (Math.Sqrt(x * x + y * y) < rangeInBucketCountSpace &&
+                        0 <= xPos && xPos < BucketCount.x &&
+                        0 <= yPos && yPos < BucketCount.x)
+                    {
+                        result.Add(_buckets[xPos][yPos]);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public Unit GetNearestUnit(Vector3 position, Faction faction)
+        {
+            var id = GetBucketId(position);
+            var alreadyTested = new List<Bucket>();
+
+            Unit nearestUnit = null;
+            var minDist = float.MaxValue;
+            var range = 0.45f;
+
+            while (nearestUnit == null)
+            {
+                var buckets = GetBucketsInRange(id, range++);
+                buckets.RemoveAll(bucket => alreadyTested.Contains(bucket));
+                if (buckets.Count == 0) break;
+
+                foreach (var bucket in buckets)
+                {
+                    if (!bucket.ContainsAny(faction)) continue;
+
+                    foreach (var unit in bucket.GetUnits(faction))
+                    {
+                        if (!unit.Alive()) continue;
+                        var dist = (unit.transform.position - position).magnitude;
+                        if (!(dist < minDist)) continue;
+                        minDist = dist;
+                        nearestUnit = unit;
+                    }
+                }
+
+                alreadyTested.AddRange(buckets);
+            }
+
+            return nearestUnit;
         }
     }
 }

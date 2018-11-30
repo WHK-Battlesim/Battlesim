@@ -1,20 +1,11 @@
 {
     "Units": [
         {
-            "Class": 1,
+            "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 760000.0,
-                "y": 5710000.0
-            },
-            "Rotation": 0.0
-        },
-        {
-            "Class": 0,
-            "Faction": 0,
-            "Position": {
-                "x": 760500.0,
-                "y": 5710000.0
+                "x": 757294.125,
+                "y": 5707617.0
             },
             "Rotation": 0.0
         },
@@ -22,18 +13,217 @@
             "Class": 2,
             "Faction": 0,
             "Position": {
-                "x": 761000.0,
-                "y": 5710000.0
+                "x": 756908.875,
+                "y": 5707589.5
             },
-            "Rotation": 90.0
+            "Rotation": 0.0
+        },
+        {
+            "Class": 2,
+            "Faction": 0,
+            "Position": {
+                "x": 756558.0,
+                "y": 5707543.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 757552.8125,
+                "y": 5707814.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 757401.6875,
+                "y": 5707798.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 757307.9375,
+                "y": 5707793.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 757147.875,
+                "y": 5707771.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 757018.5,
+                "y": 5707775.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756896.4375,
+                "y": 5707761.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756805.125,
+                "y": 5707741.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756686.875,
+                "y": 5707724.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756586.75,
+                "y": 5707698.0
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 0,
+            "Position": {
+                "x": 756483.5,
+                "y": 5707695.5
+            },
+            "Rotation": 0.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 757331.375,
+                "y": 5708521.5
+            },
+            "Rotation": 189.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 757144.5,
+                "y": 5708509.0
+            },
+            "Rotation": 194.99998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756972.375,
+                "y": 5708482.5
+            },
+            "Rotation": 190.49998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756823.25,
+                "y": 5708457.0
+            },
+            "Rotation": 186.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756709.5,
+                "y": 5708443.0
+            },
+            "Rotation": 171.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756593.3125,
+                "y": 5708438.5
+            },
+            "Rotation": 175.49998474121095
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756528.875,
+                "y": 5708435.0
+            },
+            "Rotation": 180.0
+        },
+        {
+            "Class": 0,
+            "Faction": 1,
+            "Position": {
+                "x": 756381.6875,
+                "y": 5708392.5
+            },
+            "Rotation": 171.0
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 757690.9375,
+                "y": 5709104.0
+            },
+            "Rotation": 208.5
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 755527.125,
+                "y": 5708593.0
+            },
+            "Rotation": 121.49998474121094
+        },
+        {
+            "Class": 1,
+            "Faction": 1,
+            "Position": {
+                "x": 755478.8125,
+                "y": 5708408.0
+            },
+            "Rotation": 98.9999771118164
         }
     ],
     "Stats": [
         {
             "Class": 0,
             "Faction": 0,
+            "TargetFaction": 1,
             "Movement": {
-                "Speed": 3.0,
+                "Speed": 1.0,
                 "AngularSpeed": 140.0,
                 "Acceleration": 10.0
             },
@@ -41,9 +231,10 @@
                 "Count": 112,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 10.0,
+                "Damage": 50.0,
                 "Accuracy": 10.0,
                 "Range": 2.0,
+                "ReloadTime": 2.0,
                 "MoraleDamage": 1.0,
                 "AreaDamage": 1.0,
                 "Spacing": 5.0
@@ -52,8 +243,9 @@
         {
             "Class": 1,
             "Faction": 0,
+            "TargetFaction": 1,
             "Movement": {
-                "Speed": 5.0,
+                "Speed": 2.0,
                 "AngularSpeed": 50.0,
                 "Acceleration": 15.0
             },
@@ -64,6 +256,7 @@
                 "Damage": 50.0,
                 "Accuracy": 100.0,
                 "Range": 0.10000000149011612,
+                "ReloadTime": 1.0,
                 "MoraleDamage": 3.0,
                 "AreaDamage": 1.0,
                 "Spacing": 7.0
@@ -72,8 +265,9 @@
         {
             "Class": 2,
             "Faction": 0,
+            "TargetFaction": 1,
             "Movement": {
-                "Speed": 2.0,
+                "Speed": 0.5,
                 "AngularSpeed": 140.0,
                 "Acceleration": 5.0
             },
@@ -81,9 +275,10 @@
                 "Count": 1,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 150.0,
+                "Damage": 200.0,
                 "Accuracy": 50.0,
-                "Range": 4.0,
+                "Range": 5.0,
+                "ReloadTime": 3.0,
                 "MoraleDamage": 5.0,
                 "AreaDamage": 10.0,
                 "Spacing": 15.0
@@ -92,8 +287,9 @@
         {
             "Class": 0,
             "Faction": 1,
+            "TargetFaction": 0,
             "Movement": {
-                "Speed": 3.0,
+                "Speed": 1.0,
                 "AngularSpeed": 140.0,
                 "Acceleration": 10.0
             },
@@ -101,9 +297,10 @@
                 "Count": 112,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 10.0,
+                "Damage": 50.0,
                 "Accuracy": 10.0,
                 "Range": 2.0,
+                "ReloadTime": 2.0,
                 "MoraleDamage": 1.0,
                 "AreaDamage": 1.0,
                 "Spacing": 5.0
@@ -112,8 +309,9 @@
         {
             "Class": 1,
             "Faction": 1,
+            "TargetFaction": 0,
             "Movement": {
-                "Speed": 5.0,
+                "Speed": 2.0,
                 "AngularSpeed": 50.0,
                 "Acceleration": 15.0
             },
@@ -124,6 +322,7 @@
                 "Damage": 50.0,
                 "Accuracy": 100.0,
                 "Range": 0.10000000149011612,
+                "ReloadTime": 1.0,
                 "MoraleDamage": 3.0,
                 "AreaDamage": 1.0,
                 "Spacing": 7.0
@@ -132,8 +331,9 @@
         {
             "Class": 2,
             "Faction": 1,
+            "TargetFaction": 0,
             "Movement": {
-                "Speed": 2.0,
+                "Speed": 0.5,
                 "AngularSpeed": 140.0,
                 "Acceleration": 5.0
             },
@@ -141,9 +341,10 @@
                 "Count": 1,
                 "Morale": 500.0,
                 "Health": 100.0,
-                "Damage": 150.0,
+                "Damage": 200.0,
                 "Accuracy": 50.0,
-                "Range": 4.0,
+                "Range": 5.0,
+                "ReloadTime": 3.0,
                 "MoraleDamage": 5.0,
                 "AreaDamage": 10.0,
                 "Spacing": 15.0

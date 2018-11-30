@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -686,6 +686,8 @@ MonoBehaviour:
   DefaultSituation: {fileID: 4900000, guid: 9c97979fc86a73545a89aeca50789c8f, type: 3}
   EditorMode: 0
   EditorSelectionMarker: {fileID: 0}
+  MinMsUntilRepath: 50
+  MaxMsUntilRepath: 100
   Prefabs:
   - Name: Prussia
     Prefabs:
@@ -703,6 +705,7 @@ MonoBehaviour:
       Prefab: {fileID: 1172791037645608, guid: 443711f1d141cf74aa0e8d2682044dd4, type: 2}
     - Name: Artillery
       Prefab: {fileID: 1170785054137654, guid: 8886fd58af09df64a872f9a0dbe9b573, type: 2}
+  Running: 0
 --- !u!4 &1724316210
 Transform:
   m_ObjectHideFlags: 0
@@ -773,8 +776,6 @@ GameObject:
   - component: {fileID: 1921229072}
   - component: {fileID: 1921229071}
   - component: {fileID: 1921229073}
-  - component: {fileID: 1921229075}
-  - component: {fileID: 1921229074}
   m_Layer: 0
   m_Name: Map Generator
   m_TagString: Untagged
@@ -803,6 +804,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Scale: {x: 0.01, y: 0.1, z: 0.01}
   NumberOfVertices: 1000
+  BucketCount: {x: 20, y: 20}
   TerrainFeatures:
   - Name: Land
     FeatureMapColor: {r: 1, g: 1, b: 1, a: 1}
@@ -856,6 +858,7 @@ MonoBehaviour:
     Amount: 0
     AlreadyPlaced: 0
     Prefabs: []
+  NavMesh: {fileID: 0}
 --- !u!4 &1921229072
 Transform:
   m_ObjectHideFlags: 0
@@ -880,63 +883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: -1372625422
-  m_CollectObjects: 2
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 0}
---- !u!114 &1921229074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1921229070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: -1923039037
-  m_CollectObjects: 2
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 0}
---- !u!114 &1921229075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1921229070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 1479372276
+  m_AgentTypeID: 0
   m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
