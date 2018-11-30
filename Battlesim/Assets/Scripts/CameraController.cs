@@ -64,7 +64,7 @@ namespace Assets.Scripts
         {
             _mapGenerator = FindObjectOfType<MapGenerator>();
             var navMeshBounds = _mapGenerator.GetComponentInChildren<MeshRenderer>().bounds;
-            ViewTarget = navMeshBounds.center;
+            ViewTarget = new Vector3(70, 5, 55);
             _moveCamera();
 
             return state;

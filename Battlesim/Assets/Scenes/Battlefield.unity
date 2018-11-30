@@ -803,7 +803,7 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 94c29f67da4562f43ba26d7bd84cb2d8, type: 2}
   Offset: {x: 0, y: 0, z: 0}
   Scale: {x: 0.01, y: 0.1, z: 0.01}
-  NumberOfVertices: 1000
+  NumberOfVertices: 60000
   BucketCount: {x: 20, y: 20}
   TerrainFeatures:
   - Name: Land
