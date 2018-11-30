@@ -16,10 +16,13 @@ public class SituationMenuButtonController : MonoBehaviour {
     public GameObject editButton;
     public GameObject backButton;
 
+    public GameObject previewImage;
+
     const int HISTORISCH = 0;
 
     void Start()
     {
+        SetPreviewImage();
         SetSituation(HISTORISCH);
 
         historischButton.GetComponent<Button>().onClick.AddListener(
@@ -57,5 +60,31 @@ public class SituationMenuButtonController : MonoBehaviour {
         {
             SceneManager.LoadScene(scene);
         }
+    }
+
+    void SetPreviewImage() {
+        Texture2D t = Resources.Load<Texture2D>("Maps/" + CurrentMap.Subfolder + "/Thumbnail");
+        Rect r;
+        if (t == null)
+        {
+            t = Texture2D.whiteTexture;
+            r = new Rect(0, 0, 1, 1);
+        }
+        else
+        {
+            var imageRect = previewImage.GetComponent<Image>().GetPixelAdjustedRect();
+            if (imageRect.width > imageRect.height)
+            {
+                var ratio = imageRect.height / imageRect.width;
+                r = new Rect(0, 0, t.width, t.height * ratio);
+            }
+            else
+            {
+                var ratio = imageRect.width / imageRect.height;
+                r = new Rect(0, 0, t.width * ratio, t.height);
+            }
+        }
+        var s = Sprite.Create(t, r, Vector2.zero);
+        previewImage.GetComponent<Image>().overrideSprite = s;
     }
 }

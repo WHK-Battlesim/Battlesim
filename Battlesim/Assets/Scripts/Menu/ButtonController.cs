@@ -62,16 +62,10 @@ public class ButtonController : MonoBehaviour {
             var imageRect = mapThumbnail.GetComponent<Image>().GetPixelAdjustedRect();
             if (imageRect.width > imageRect.height) {
                 var ratio = imageRect.height / imageRect.width;
-                Debug.Log(ratio);
-                Debug.Log(t.width);
-                Debug.Log(t.height * ratio);
                 r = new Rect(0, 0, t.width, t.height * ratio);
             }
             else {
                 var ratio = imageRect.width / imageRect.height;
-                Debug.Log(ratio);
-                Debug.Log(t.height);
-                Debug.Log(t.width * ratio);
                 r = new Rect(0, 0, t.width * ratio, t.height);
             }
         }
