@@ -118,7 +118,8 @@ namespace Assets.Scripts
             _mapGenerator = FindObjectOfType<MapGenerator>();
             _camera = FindObjectOfType<Camera>();
 
-            _situation = JsonUtility.FromJson<Situation>(DefaultSituation.text);
+            var situation = Resources.Load<TextAsset>("Maps/" + CurrentMap.Subfolder + "/situations/" + (CurrentMap.Situation == 0 ? "historic" : "custom" + CurrentMap.Situation));
+            _situation = JsonUtility.FromJson<Situation>(situation.text);
 
             return state;
         }

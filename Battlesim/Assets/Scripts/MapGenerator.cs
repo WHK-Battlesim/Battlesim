@@ -228,12 +228,11 @@ namespace Assets.Scripts
         private object _prepareDependencies(object state)
         {
             var setupState = new SetupState();
-
-            // TODO: read these from static storage (will be set by map select screen)
-            _heightMap = DefaultHeightMap;
-            _featureMap = DefaultFeatureMap;
-            _extents = DefaultExtents;
-            _decorationMap = DefaultDecorationMap;
+            
+            _heightMap = Resources.Load<Texture2D>("Maps/" + CurrentMap.Subfolder + "/heightmap");
+            _featureMap = Resources.Load<Texture2D>("Maps/" + CurrentMap.Subfolder + "/features");
+            _extents = Resources.Load<TextAsset>("Maps/" + CurrentMap.Subfolder + "/extents");
+            _decorationMap = Resources.Load<Texture2D>("Maps/" + CurrentMap.Subfolder + "/decoration");
 
             setupState.Terrain = new GameObject("Terrain");
             setupState.Terrain.transform.SetParent(transform);
