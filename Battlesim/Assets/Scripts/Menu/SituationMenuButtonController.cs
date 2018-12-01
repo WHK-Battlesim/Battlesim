@@ -76,12 +76,12 @@ public class SituationMenuButtonController : MonoBehaviour {
             if (imageRect.width > imageRect.height)
             {
                 var ratio = imageRect.height / imageRect.width;
-                r = new Rect(0, 0, t.width, t.height * ratio);
+                r = new Rect(0, 0, t.width, t.width * ratio);
             }
             else
             {
                 var ratio = imageRect.width / imageRect.height;
-                r = new Rect(0, 0, t.width * ratio, t.height);
+                r = new Rect(0, 0, t.height * ratio, t.height);
             }
         }
         var s = Sprite.Create(t, r, Vector2.zero);
