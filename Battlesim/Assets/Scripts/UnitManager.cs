@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using Input = UnityEngine.Input;
 using MeshRenderer = UnityEngine.MeshRenderer;
 using Random = System.Random;
@@ -191,6 +192,8 @@ namespace Assets.Scripts
 
         private void Update()
         {
+            if(Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("Main Menu");
+
             if (EditorMode && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
 
             var leftDown = Input.GetMouseButtonDown(0);
@@ -321,7 +324,7 @@ namespace Assets.Scripts
 
             // TODO: for now, saving is only supported if running in editor
             #if UNITY_EDITOR
-            var writer = new StreamWriter("Assets/Maps/" + map + "/Situations/" + situation + ".json");
+            var writer = new StreamWriter("Assets/Resources/Maps/" + map + "/Situations/" + situation + ".json");
             writer.Write(JsonUtility.ToJson(result));
             writer.Close();
             #endif

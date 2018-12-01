@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3260,6 +3260,8 @@ MonoBehaviour:
   EditorMode: 1
   EditorSelectionMarker: {fileID: 1385561194733766, guid: 8c4fb712ab41a9e4690198bccaa09584,
     type: 2}
+  MinMsUntilRepath: 50
+  MaxMsUntilRepath: 100
   Prefabs:
   - Name: Prussia
     Prefabs:
@@ -3277,6 +3279,7 @@ MonoBehaviour:
       Prefab: {fileID: 1172791037645608, guid: 443711f1d141cf74aa0e8d2682044dd4, type: 2}
     - Name: Artillery
       Prefab: {fileID: 1170785054137654, guid: 8886fd58af09df64a872f9a0dbe9b573, type: 2}
+  Running: 0
 --- !u!4 &1724316210
 Transform:
   m_ObjectHideFlags: 0
@@ -3447,6 +3450,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0, z: 0}
   Scale: {x: 0.01, y: 0.1, z: 0.01}
   NumberOfVertices: 60000
+  BucketCount: {x: 20, y: 20}
   TerrainFeatures:
   - Name: Land
     FeatureMapColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3500,6 +3504,7 @@ MonoBehaviour:
     Amount: 0
     AlreadyPlaced: 0
     Prefabs: []
+  NavMesh: {fileID: 0}
 --- !u!4 &1921229072
 Transform:
   m_ObjectHideFlags: 0
@@ -4010,7 +4015,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: Historic
+  m_Text: historic
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
